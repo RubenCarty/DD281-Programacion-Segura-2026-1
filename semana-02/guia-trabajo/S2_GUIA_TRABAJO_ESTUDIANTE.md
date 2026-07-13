@@ -4,11 +4,11 @@
 
 ---
 
-**Nombre del estudiante:** _______________________________________________
+**Nombre del estudiante:** Wilder Nicanor Norabuena Ramirez
 
-**Grupo / Sección:** _____________________________________________________
+**Grupo / Sección:** VIII CICLO
 
-**Fecha:** ______________________________________________________________
+**Fecha:** 14 de junio 2026
 
 **Instrucciones generales:**
 - Completa esta guía durante la sesión de clase en los momentos indicados por el docente.
@@ -30,9 +30,9 @@ Completa la tabla con la aplicación de cada pilar de la triada CIA al sistema d
 
 | Pilar CIA | ¿Cómo se manifiesta en un sistema de login? | Ejemplo concreto |
 |---|---|---|
-| **Confidencialidad** | | |
-| **Integridad** | | |
-| **Disponibilidad** | | |
+| **Confidencialidad** |Garantiza que las credenciales del usuario (usuario y contraseña) solo sean accesibles por el sistema y no se revelen a terceros. |Uso de cifrado TLS/SSL para proteger la transmisión de la contraseña en la red. |
+| **Integridad** |Asegura que los datos de autenticación no sean alterados ni manipulados durante el proceso de validación. |Implementación de hash seguro (SHA-256, bcrypt) para almacenar contraseñas y verificar que no se modifiquen. |
+| **Disponibilidad** |Garantiza que el servicio de login esté siempre accesible para los usuarios legítimos cuando lo necesiten. |Uso de balanceadores de carga y redundancia de servidores para evitar caídas del sistema de autenticación. |
 
 ---
 
@@ -42,11 +42,11 @@ Marca con ✓ las vulnerabilidades OWASP que se relacionan directamente con un l
 
 | # | Vulnerabilidad OWASP | ¿Relacionada con login? | ¿Por qué? |
 |---|---|---|---|
-| A01 | Broken Access Control | ☐ Sí ☐ No | |
-| A02 | Cryptographic Failures | ☐ Sí ☐ No | |
-| A03 | Injection | ☐ Sí ☐ No | |
-| A04 | Insecure Design | ☐ Sí ☐ No | |
-| A07 | Identification/Auth Failures | ☐ Sí ☐ No | |
+| A01 | Broken Access Control | X Sí ☐ No |Un login inseguro puede permitir que usuarios sin privilegios accedan a recursos restringidos si no se aplican controles de acceso adecuados. |
+| A02 | Cryptographic Failures | X Sí ☐ No |Si las contraseñas no se cifran correctamente en tránsito o almacenamiento, se compromete la confidencialidad del login. |
+| A03 | Injection | X Sí ☐ No |Formularios de login mal protegidos pueden ser vulnerables a ataques de inyección SQL, permitiendo eludir la autenticación. |
+| A04 | Insecure Design | X Sí ☐ No |Un diseño deficiente del flujo de autenticación (ej. sin MFA, sin bloqueo tras intentos fallidos) facilita ataques de fuerza bruta o robo de credenciales. |
+| A07 | Identification/Auth Failures | X Sí ☐ No |Directamente vinculado al login: contraseñas débiles, falta de verificación de identidad y errores en el proceso de autenticación. |
 
 ---
 
@@ -54,11 +54,11 @@ Marca con ✓ las vulnerabilidades OWASP que se relacionan directamente con un l
 
 ¿Cómo aplicarías el principio de Mínimo Privilegio a un sistema de autenticación? Escribe al menos 3 aplicaciones concretas:
 
-1. _______________________________________________________________________
+1. Asignar a cada usuario únicamente los permisos necesarios para cumplir sus funciones. Por ejemplo, un estudiante solo puede acceder a su perfil y notas, pero no a la administración del sistema.
 
-2. _______________________________________________________________________
+2. Implementar privilegios con caducidad para tareas específicas. Por ejemplo, un técnico de soporte recibe acceso limitado al panel de usuarios solo durante el tiempo que dura la intervención.
 
-3. _______________________________________________________________________
+3. Evitar que un mismo usuario tenga privilegios que puedan comprometer la seguridad si se combinan. Por ejemplo, quien aprueba pagos no debe ser el mismo que los registra en el sistema.
 
 ---
 
@@ -70,12 +70,12 @@ Marca con ✓ las vulnerabilidades OWASP que se relacionan directamente con un l
 
 Escribe todo lo que se te ocurra:
 
-1. _______________________________________________
-2. _______________________________________________
-3. _______________________________________________
-4. _______________________________________________
-5. _______________________________________________
-6. _______________________________________________
+1. Contraseñas débiles
+2. Falta de cifrado 
+3. Almacenamiento inseguro
+4. Ausencia de bloqueo
+5. Sesiones mal gestionadas 
+6. Falta de MFA 
 
 *(Al final de la clase volveremos a esta lista para ver cuánto más podemos agregar)*
 
@@ -89,20 +89,20 @@ Responde con lo que ya sabes (marca la opción más correcta):
 
 - ☐ a) En texto plano para facilitar la recuperación
 - ☐ b) Cifradas con AES-256 para poder descifrarlas si el usuario las olvida
-- ☐ c) Como hash unidireccional con sal aleatoria
+- X c) Como hash unidireccional con sal aleatoria
 - ☐ d) Codificadas en Base64 para "ofuscarlas"
 
 **B.2.2** ¿Qué versión de TLS/SSL deben usar los servidores web en 2024?
 
 - ☐ a) SSL 3.0 — es la versión estándar
 - ☐ b) TLS 1.0 — compatible con todos los dispositivos
-- ☐ c) TLS 1.2 mínimo, preferiblemente TLS 1.3
+- X c) TLS 1.2 mínimo, preferiblemente TLS 1.3
 - ☐ d) La versión no importa, cualquier SSL es suficiente
 
 **B.2.3** ¿Qué es un certificado SSL autofirmado (self-signed)?
 
 - ☐ a) Un certificado gratuito de Let's Encrypt
-- ☐ b) Un certificado creado por uno mismo sin validación de una CA externa
+- X b) Un certificado creado por uno mismo sin validación de una CA externa
 - ☐ c) Un certificado de mayor seguridad que el emitido por una CA
 - ☐ d) El tipo de certificado requerido en producción
 
@@ -117,30 +117,26 @@ Responde con lo que ya sabes (marca la opción más correcta):
 
 **C.1.1** Escribe con tus propias palabras qué es una especificación formal de seguridad:
 
-_________________________________________________________________________
-
-_________________________________________________________________________
-
-_________________________________________________________________________
+Es como un “contrato” escrito en términos rigurosos que asegura que aspectos como confidencialidad, integridad y disponibilidad estén correctamente definidos y puedan ser evaluados antes de implementar el sistema.
 
 **C.1.2** ¿Cuál es la diferencia entre estas dos "especificaciones"? ¿Por qué una es formal y la otra no?
 
 | | Ejemplo A | Ejemplo B |
 |---|---|---|
 | **Texto** | "El login debe ser seguro" | "Las contraseñas se almacenarán como hash bcrypt con factor de coste 12. Máximo 5 intentos antes de bloqueo de 15 min." |
-| **¿Por qué es o no es una especificación formal?** | | |
+| **¿Por qué es o no es una especificación formal?** |No es formal porque es ambigua y genérica. No define criterios verificables ni parámetros técnicos; “seguro” puede interpretarse de muchas formas distintas. |Sí es formal porque establece requisitos precisos y medibles: algoritmo de hash, factor de coste, número máximo de intentos y tiempo de bloqueo. Estos parámetros pueden implementarse y verificarse objetivamente. |
 
 **C.1.3** Completa los 7 componentes de una especificación formal de seguridad:
 
 | # | Componente | ¿Qué define? |
 |---|---|---|
-| 1 | **Activos** | |
-| 2 | **Sujetos** | |
-| 3 | **Objetos** | |
-| 4 | **Operaciones** | |
-| 5 | **Condiciones** | |
-| 6 | **Mecanismos** | |
-| 7 | **Respuesta ante violación** | |
+| 1 | **Activos** |Los recursos que deben protegerse: datos, credenciales, sistemas, infraestructura. |
+| 2 | **Sujetos** |Los actores que interactúan con el sistema: usuarios, administradores, atacantes potenciales. |
+| 3 | **Objetos** |Los elementos sobre los que se realizan operaciones: bases de datos, archivos, sesiones, servicios. |
+| 4 | **Operaciones** |Las acciones permitidas o restringidas: leer, escribir, modificar, autenticar, eliminar. |
+| 5 | **Condiciones** |Las reglas o restricciones bajo las cuales se ejecutan las operaciones: políticas de acceso, roles, permisos. |
+| 6 | **Mecanismos** |Los controles técnicos que implementan la seguridad: cifrado, autenticación multifactor, firewalls, hashing. |
+| 7 | **Respuesta ante violación** |Las acciones que se toman si ocurre un incidente: alertas, bloqueo de cuentas, auditoría, recuperación. |
 
 ---
 
@@ -152,13 +148,13 @@ Marca la respuesta correcta. Solo hay una opción correcta por pregunta.
 
 - ☐ a) SHA-1 no produce un hash — produce texto cifrado
 - ☐ b) SHA-1 es reversible — se puede obtener la contraseña original
-- ☐ c) Los atacantes pueden usar tablas rainbow precomputadas para romper el hash
+- X c) Los atacantes pueden usar tablas rainbow precomputadas para romper el hash
 - ☐ d) SHA-1 produce hashes demasiado cortos para ser seguros
 
 **C.2.2** ¿Qué ventaja fundamental tiene bcrypt sobre SHA-256 para almacenar contraseñas?
 
 - ☐ a) Bcrypt produce hashes más largos que SHA-256
-- ☐ b) Bcrypt incluye automáticamente sal aleatoria y es intencionalmente lento
+- X b) Bcrypt incluye automáticamente sal aleatoria y es intencionalmente lento
 - ☐ c) Bcrypt es un algoritmo de cifrado, no de hash
 - ☐ d) Bcrypt es más rápido que SHA-256, mejorando el rendimiento del login
 
@@ -166,13 +162,13 @@ Marca la respuesta correcta. Solo hay una opción correcta por pregunta.
 
 - ☐ a) Un algoritmo de cifrado adicional aplicado al hash
 - ☐ b) La clave secreta usada para cifrar el hash antes de almacenarlo
-- ☐ c) Un valor aleatorio único por usuario que se concatena a la contraseña antes de hashear
+- X c) Un valor aleatorio único por usuario que se concatena a la contraseña antes de hashear
 - ☐ d) El factor de coste que determina cuántas rondas de hashing se ejecutan
 
 **C.2.4** ¿Por qué es un error de seguridad grave que el formulario de login use el método HTTP GET?
 
 - ☐ a) Porque GET no puede transportar datos de texto
-- ☐ b) Porque los parámetros GET viajan en la URL y quedan en logs del servidor y en el historial del navegador
+- X b) Porque los parámetros GET viajan en la URL y quedan en logs del servidor y en el historial del navegador
 - ☐ c) Porque GET es más lento que POST para transferir datos
 - ☐ d) Porque GET no cifra los datos antes de enviarlos
 
@@ -180,14 +176,14 @@ Marca la respuesta correcta. Solo hay una opción correcta por pregunta.
 
 - ☐ a) Un mecanismo que cifra el certificado del servidor con una segunda clave
 - ☐ b) La capacidad del servidor de descifrar tráfico pasado si se compromete la clave privada
-- ☐ c) El uso de claves de sesión efímeras para que el compromiso de la clave privada del servidor no permita descifrar tráfico pasado
+- X c) El uso de claves de sesión efímeras para que el compromiso de la clave privada del servidor no permita descifrar tráfico pasado
 - ☐ d) La verificación automática de que el certificado SSL no ha expirado
 
 **C.2.6** ¿Cuál de los siguientes es el estándar de hash de contraseñas más recomendado hoy?
 
 - ☐ a) MD5 con sal de 16 bytes
 - ☐ b) SHA-512 sin sal
-- ☐ c) bcrypt (factor 12+) o argon2id
+- X c) bcrypt (factor 12+) o argon2id
 - ☐ d) AES-256 con clave de 32 bytes
 
 **C.2.7** ¿Cuál de las siguientes configuraciones de servidor web es correcta en relación a SSL?
@@ -195,26 +191,26 @@ Marca la respuesta correcta. Solo hay una opción correcta por pregunta.
 - ☐ a) Habilitar SSL 3.0, TLS 1.0, TLS 1.1 y TLS 1.2 para máxima compatibilidad
 - ☐ b) Usar solo TLS 1.3 y deshabilitar todas las versiones anteriores
 - ☐ c) Deshabilitar SSL 2.0 y SSL 3.0, mantener TLS 1.0, 1.1, 1.2 y 1.3
-- ☐ d) Usar TLS 1.2 y TLS 1.3, deshabilitar versiones anteriores
+- X d) Usar TLS 1.2 y TLS 1.3, deshabilitar versiones anteriores
 
 **C.2.8** ¿Qué es CGI (Common Gateway Interface)?
 
 - ☐ a) Un framework de Python para desarrollo web seguro
-- ☐ b) Un protocolo estándar que define cómo un servidor web pasa solicitudes a programas externos para generar respuestas dinámicas
-- ☐ c) Una librería de JavaScript para crear formularios de login
+- X b) Un protocolo estándar que define cómo un servidor web pasa solicitudes a programas externos para generar respuestas dinámicas
+-  c) Una librería de JavaScript para crear formularios de login
 - ☐ d) Un tipo de certificado SSL para servidores compartidos
 
 **C.2.9** Un atacante ejecuta el siguiente input en el campo de usuario de un login CGI inseguro: `admin' --`. ¿Qué tipo de ataque es este y qué efecto tendría?
 
 - ☐ a) XSS — inyecta código JavaScript en la página
-- ☐ b) SQL Injection — el `'--` cierra la query y comenta el resto, posiblemente bypasseando la verificación de contraseña
+- X b) SQL Injection — el `'--` cierra la query y comenta el resto, posiblemente bypasseando la verificación de contraseña
 - ☐ c) CSRF — falsifica una solicitud de otro dominio
 - ☐ d) Path Traversal — intenta acceder a archivos del sistema
 
 **C.2.10** ¿Cuál es el propósito del header HTTP `Strict-Transport-Security`?
 
 - ☐ a) Obliga al servidor a responder solo con JSON
-- ☐ b) Le indica al navegador que siempre use HTTPS para ese dominio, incluso si el usuario escribe HTTP
+- X b) Le indica al navegador que siempre use HTTPS para ese dominio, incluso si el usuario escribe HTTP
 - ☐ c) Restringe el origen de las solicitudes al dominio del servidor
 - ☐ d) Cifra automáticamente todos los cookies del servidor
 
@@ -224,21 +220,21 @@ Marca la respuesta correcta. Solo hay una opción correcta por pregunta.
 
 Completa los espacios en blanco con la palabra o frase correcta:
 
-**C.3.1** El proceso de almacenamiento de contraseñas usa __________ (no cifrado), porque es un proceso __________ que no permite obtener el dato original.
+**C.3.1** El proceso de almacenamiento de contraseñas usa HASHING (no cifrado), porque es un proceso UNIDIRECCIONAL que no permite obtener el dato original.
 
-**C.3.2** La "sal" en bcrypt es un valor __________ y __________ por usuario que elimina la posibilidad de usar __________ precomputadas.
+**C.3.2** La "sal" en bcrypt es un valor ALEATORIO y UNICO por usuario que elimina la posibilidad de usar TABLAS RAINBOW precomputadas.
 
-**C.3.3** TLS 1.3 hace obligatorio el uso de __________ (siglas), lo que significa que si la clave privada del servidor se compromete, el tráfico __________ no puede ser descifrado.
+**C.3.3** TLS 1.3 hace obligatorio el uso de PFS(siglas), lo que significa que si la clave privada del servidor se compromete, el tráfico PASADO no puede ser descifrado.
 
-**C.3.4** En CGI, los datos del formulario POST se reciben a través de la __________ estándar del script, mientras que los parámetros GET llegan en la variable de entorno __________.
+**C.3.4** En CGI, los datos del formulario POST se reciben a través de la ENTRADA estándar del script, mientras que los parámetros GET llegan en la variable de entorno QUERY_STRING.
 
-**C.3.5** El código de respuesta HTTP que se debe usar para redirigir permanentemente HTTP a HTTPS es el __________.
+**C.3.5** El código de respuesta HTTP que se debe usar para redirigir permanentemente HTTP a HTTPS es el 301.
 
-**C.3.6** El principio de seguridad que dice que cada usuario o proceso debe tener solo los permisos mínimos necesarios se llama __________ __________.
+**C.3.6** El principio de seguridad que dice que cada usuario o proceso debe tener solo los permisos mínimos necesarios se llama PRINCIPIO DE MINIMO PRIVILEGIO.
 
-**C.3.7** Un certificado SSL __________ (autofirmado) es apropiado para __________ y __________, pero NO para __________ porque los navegadores muestran una advertencia de seguridad.
+**C.3.7** Un certificado SSL AUTOFIRMADO (autofirmado) es apropiado para PRUEBAS y ENTORNOS INTERNOS, pero NO para PRODUCCION porque los navegadores muestran una advertencia de seguridad.
 
-**C.3.8** La organización OWASP clasifica como A07 los fallos de __________ y __________, que incluyen contraseñas débiles, ausencia de MFA y sesiones que no expiran.
+**C.3.8** La organización OWASP clasifica como A07 los fallos de IDENTIFICACION y AUTENTICACION, que incluyen contraseñas débiles, ausencia de MFA y sesiones que no expiran.
 
 ---
 
@@ -276,11 +272,11 @@ conn.close()
 
 | # | Vulnerabilidad identificada | Descripción del riesgo | Cómo corregirla |
 |---|---|---|---|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
+| 1 |SQL Injection |El código construye la consulta SQL concatenando directamente los valores de user y pwd. Un atacante puede inyectar código malicioso para saltarse la autenticación. |Usar consultas parametrizadas (cursor.execute("SELECT ... WHERE usuario=%s AND clave=%s", (user, pwd))). |
+| 2 |Contraseña hardcodeada |La contraseña de la base de datos (Admin@2024!) está escrita en el código fuente. Si el archivo se filtra, el atacante obtiene acceso directo. |Guardar credenciales en variables de entorno o un gestor seguro de secretos. |
+| 3 |Almacenamiento inseguro de contraseñas |El sistema compara la contraseña en texto plano (clave='{pwd}'). Esto implica que las contraseñas están almacenadas sin hash en la base de datos. |Almacenar contraseñas con bcrypt/argon2id y comparar usando el hash. |
+| 4 |Exposición de información sensible |El mensaje de error revela si el usuario existe: "Usuario: {user} no existe". Esto facilita ataques de enumeración de usuarios. |Mostrar un mensaje genérico: “Credenciales inválidas” sin indicar si el usuario existe. |
+| 5 |Falta de sanitización de salida |El valor de user y los datos de row se imprimen directamente en HTML. Un atacante podría inyectar código malicioso (XSS). |Escapar las salidas con librerías seguras (ej. html.escape(user)) antes de mostrarlas en la página. |
 
 ---
 
@@ -290,10 +286,10 @@ conn.close()
 
 | Elemento de la política | ¿Correcto o incorrecto? | ¿Por qué? |
 |---|---|---|
-| Exactamente 8 caracteres | | |
-| Cambio obligatorio cada 30 días | | |
-| Historial de 3 passwords | | |
-| Complejidad obligatoria (mayus+minus+num+simb) | | |
+| Exactamente 8 caracteres |❌ Incorrecto |NIST recomienda longitud mínima de 8 caracteres, pero no limitar a exactamente 8. Se debe permitir contraseñas más largas para mayor seguridad. |
+| Cambio obligatorio cada 30 días |❌ Incorrecto |NIST desaconseja cambios periódicos forzados. Obligar a cambiar cada 30 días genera contraseñas más débiles y reutilización de patrones. Solo deben cambiarse si hay evidencia de compromiso. |
+| Historial de 3 passwords |⚠️ Parcialmente correcto |NIST no enfatiza el historial como requisito principal. Puede ayudar a evitar reutilización inmediata, pero no es suficiente por sí solo. Se recomienda más foco en longitud y resistencia. |
+| Complejidad obligatoria (mayus+minus+num+simb) |❌ Incorrecto |NIST recomienda permitir frases largas y fáciles de recordar en lugar de imponer reglas de complejidad. Las reglas rígidas llevan a contraseñas difíciles de recordar y patrones predecibles. |
 
 ---
 
@@ -305,34 +301,45 @@ conn.close()
 
 **D.3.1** ¿Qué estándares internacionales de seguridad son relevantes para este contexto? Menciona al menos 3.
 
-_________________________________________________________________________
+ISO/IEC 27001: Gestión de seguridad de la información.
 
-_________________________________________________________________________
+PCI DSS: Seguridad en transacciones con tarjetas de pago.
 
-_________________________________________________________________________
+NIST SP 800-63B: Directrices de autenticación digital.
+
+ISO/IEC 22301: Continuidad del negocio.
+
+OWASP ASVS: Estándar de verificación de seguridad de aplicaciones.
 
 **D.3.2** Diseña la especificación formal de seguridad completa para el módulo de login de esta fintech. Usa la estructura de 7 componentes vista en clase:
 
 | Componente | Tu especificación |
 |---|---|
-| **Activos a proteger** | |
-| **Sujetos (roles)** | |
-| **Objetos (recursos controlados)** | |
-| **Operaciones permitidas/denegadas** | |
-| **Condiciones de acceso** | |
-| **Mecanismos técnicos** | |
-| **Respuesta ante violación** | |
+| **Activos a proteger** |Credenciales de usuarios (contraseñas, tokens MFA), datos personales y financieros, sesiones activas, logs de acceso. |
+| **Sujetos (roles)** |Usuarios clientes, administradores del sistema, auditores internos, atacantes potenciales externos. |
+| **Objetos (recursos controlados)** |Base de datos de usuarios, servidor de autenticación, API de login, tokens de sesión, registros de auditoría. |
+| **Operaciones permitidas/denegadas** |Permitidas: iniciar sesión, cerrar sesión, recuperar contraseña, validar MFA. Denegadas: acceso sin credenciales válidas, manipulación de tokens, consultas directas a la base de datos de credenciales. |
+| **Condiciones de acceso** |Credenciales válidas con hash seguro (bcrypt/argon2id), MFA obligatorio, conexión cifrada TLS 1.3, límite de intentos fallidos (máx. 5 antes de bloqueo temporal). |
+| **Mecanismos técnicos** |Hashing con sal aleatoria, autenticación multifactor, TLS 1.3 con Perfect Forward Secrecy, protección contra fuerza bruta, sanitización de entradas, gestión segura de sesiones (expiración, regeneración de tokens). |
+| **Respuesta ante violación** |Bloqueo inmediato de cuenta tras intentos sospechosos, alertas al SOC (Security Operations Center), registro en logs de auditoría, análisis forense, notificación al usuario y reporte a SBS si compromete datos financieros. |
 
 **D.3.3** Justifica por qué elegiste bcrypt (y no MD5, SHA-256 o AES) para almacenar contraseñas en este sistema financiero. Usa argumentos técnicos y de cumplimiento normativo.
 
-_________________________________________________________________________
+Argumentos técnicos
+. Bcrypt es intencionalmente lento y configurable, lo que dificulta ataques de fuerza bruta.
 
-_________________________________________________________________________
+. Incluye sal aleatoria integrada, evitando ataques con tablas rainbow.
 
-_________________________________________________________________________
+. Es un hash unidireccional, por lo que las contraseñas no pueden revertirse ni descifrarse.
 
-_________________________________________________________________________
+. Tiene amplia adopción y soporte en sistemas críticos, a diferencia de MD5 (obsoleto), SHA-256 (rápido y sin sal por defecto) o AES (reversible).
 
+Argumentos normativos
+. NIST SP 800-63B recomienda bcrypt, scrypt o argon2id para contraseñas; desaconseja MD5 y SHA-1.
+
+. ISO/IEC 27001 y OWASP ASVS exigen almacenamiento resistente a ataques offline, lo que bcrypt cumple.
+
+. SBS Perú requiere alineación con estándares internacionales, y bcrypt demuestra cumplimiento en auditorías de sistemas financieros.
 ---
 
 **D.4** Pregunta de investigación (para completar fuera de clase):
@@ -341,23 +348,33 @@ La empresa Adobe sufrió en 2013 una de las brechas de datos más analizadas aca
 
 **D.4.1** Investiga: ¿cómo Adobe almacenaba las contraseñas de sus usuarios? ¿Por qué fue un error tan grave?
 
-_________________________________________________________________________
+Adobe no almacenaba las contraseñas con un hash seguro (como bcrypt o Argon2). En su lugar, las guardaba como contraseñas cifradas simétricamente con la misma clave. Esto fue un error grave porque:
 
-_________________________________________________________________________
+. El cifrado es reversible: si la clave se filtra, todas las contraseñas pueden descifrarse.
 
-_________________________________________________________________________
+. No había uso de sal aleatoria, lo que permitió a los atacantes correlacionar contraseñas iguales.
+
+. Se expusieron 153 millones de registros, lo que convirtió el incidente en uno de los más estudiados en seguridad.
 
 **D.4.2** Explica por qué el hint de contraseña (pista de contraseña) que Adobe guardaba junto al hash **empeoró significativamente** el ataque:
 
-_________________________________________________________________________
+Adobe almacenaba junto al hash/cifrado un hint de contraseña (pista) escrito por el usuario.
 
-_________________________________________________________________________
+. Muchas pistas eran extremadamente reveladoras (“mi perro”, “fecha de nacimiento”, etc.).
+
+. Los atacantes pudieron usar esas pistas para adivinar contraseñas sin necesidad de romper el cifrado.
+
+. En combinación con el cifrado reversible, los hints facilitaron ataques masivos de descifrado y correlación de cuentas.
 
 **D.4.3** ¿Qué debió haber hecho Adobe en su lugar?
 
-_________________________________________________________________________
+. Usar un algoritmo de hash seguro y lento como bcrypt o argon2id, con sal aleatoria por usuario.
 
-_________________________________________________________________________
+. No almacenar hints de contraseña en texto plano junto al hash.
+
+. Implementar autenticación multifactor (MFA) para reducir el impacto de contraseñas comprometidas.
+
+. Cumplir con estándares como NIST SP 800-63B y OWASP ASVS, que prohíben almacenamiento reversible de contraseñas.
 
 ---
 
