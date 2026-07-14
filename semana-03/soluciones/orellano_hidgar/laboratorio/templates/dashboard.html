@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 760px; margin: 40px auto; line-height: 1.4; }
+    .badge { background: #263747; color: white; padding: 4px 10px; border-radius: 12px; }
+    .admin-badge { background: #b83227; }
+    .supervisor-badge { background: #d97904; }
+    .usuario-badge { background: #276749; }
+    a { color: #1a5276; }
+    li { margin: 6px 0; }
+    table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background: #f4f4f4; }
+  </style>
+</head>
+<body>
+  <h2>Dashboard</h2>
+  <p>Bienvenido, <strong>{{ name }}</strong>
+    <span class="badge {{ role }}-badge">{{ role | upper }}</span>
+  </p>
+  {% if seccion %}<h3>{{ seccion }}</h3>{% endif %}
+  <hr>
+  <ul>
+    <li><a href="/mi-perfil">Mi Perfil</a></li>
+    <li><a href="/reportes">Ver Reportes</a> (supervisor y admin)</li>
+    <li><a href="/admin/panel">Panel de Administracion</a> (solo admin)</li>
+    <li><a href="/admin/sesiones-activas">Sesiones activas</a> (solo admin)</li>
+    <li><a href="/demo/fixation">Demo Session Fixation</a></li>
+  </ul>
+  {% if reportes %}
+  <table>
+    <tr><th>Titulo</th><th>Fecha</th></tr>
+    {% for r in reportes %}<tr><td>{{ r.titulo }}</td><td>{{ r.fecha }}</td></tr>{% endfor %}
+  </table>
+  {% endif %}
+  <br>
+  <a href="/logout">Cerrar sesion</a>
+</body>
+</html>

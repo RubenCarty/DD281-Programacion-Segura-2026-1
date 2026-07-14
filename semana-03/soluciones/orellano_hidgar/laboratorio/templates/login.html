@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Seguro - Lab S3</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 420px; margin: 50px auto; line-height: 1.4; }
+    input { width: 100%; padding: 9px; margin: 8px 0; box-sizing: border-box; }
+    button { width: 100%; padding: 10px; background: #263747; color: white; border: 0; cursor: pointer; }
+    .error { color: #b00020; font-weight: bold; }
+    small { color: #555; }
+  </style>
+</head>
+<body>
+  <h2>Programacion Segura - Lab S3</h2>
+  <h3>Sistema con sesiones seguras y RBAC</h3>
+  {% if error %}<p class="error">{{ error }}</p>{% endif %}
+  <form method="POST">
+    <input type="email" name="email" placeholder="Correo electronico" required>
+    <input type="password" name="password" placeholder="Contrasena" required>
+    <button type="submit">Iniciar sesion</button>
+  </form>
+  <br>
+  <small>
+    Usuarios de prueba:<br>
+    admin@test.com / Admin2026!<br>
+    supervisor@test.com / Super2026!<br>
+    usuario@test.com / Usuario2026!
+  </small>
+</body>
+</html>

@@ -1,0 +1,24 @@
+login.html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Flask</title>
+</head>
+<body>
+  <h1>Login Flask</h1>
+  <form action="http://127.0.0.1:5000/login" method="POST">
+    <label for="usuario">Usuario:</label>
+    <input type="text" id="usuario" name="usuario" value="dalia"><br><br>
+
+    <label for="rol">Rol:</label>
+    <select id="rol" name="rol">
+      <option value="cliente">Cliente</option>
+      <option value="operador">Operador</option>
+      <option value="admin">Admin</option>
+    </select><br><br>
+
+    <button type="submit">Iniciar sesión</button>
+  </form>
+</body>
+</html>
