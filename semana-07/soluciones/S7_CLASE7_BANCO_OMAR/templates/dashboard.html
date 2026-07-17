@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control Seguro - BancoSeguro</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --accent-blue: #00bcd4;
+            --icon-green: #4caf50;
+            --icon-purple: #9c27b0;
+            --icon-orange: #ff9800;
+            --icon-red: #f44336;
+            --panel-bg: rgba(30, 30, 30, 0.85);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            /* Fondo de pantalla abstracto y vibrante */
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 188, 212, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(156, 39, 176, 0.15) 0%, transparent 40%),
+                linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+            background-size: cover;
+        }
+
+        .dashboard-container {
+            background-color: var(--panel-bg);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .welcome-text {
+            color: #888;
+            margin-bottom: 40px;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            justify-items: center;
+        }
+
+        .icon-card {
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 15px;
+            width: 120px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid transparent;
+        }
+
+        .icon-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .icon-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Colores de los iconos para alta visibilidad */
+        .icon-blue { background-color: var(--accent-blue); }
+        .icon-green { background-color: var(--icon-green); }
+        .icon-purple { background-color: var(--icon-purple); }
+        .icon-orange { background-color: var(--icon-orange); }
+        .icon-red { background-color: var(--icon-red); }
+
+        .icon-label {
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <h1>PANEL DE CONTROL SEGURO</h1>
+    <p class="welcome-text">Bienvenido, {{ username }} (Rol: {{ rol }})</p>
+
+    <div class="icon-grid">
+        <!-- Icono: Transferir (Verde - Finanzas) -->
+        <a href="/transferir" class="icon-card">
+            <div class="icon-circle icon-green">💸</div>
+            <div class="icon-label">Transferir</div>
+        </a>
+
+        <!-- Icono: Ver Usuarios (Púrpura - Admin) -->
+        {% if rol == 'admin' %}
+        <a href="/admin/usuarios" class="icon-card">
+            <div class="icon-circle icon-purple">👥</div>
+            <div class="icon-label">Usuarios</div>
+        </a>
+        {% endif %}
+
+        <!-- Icono: Configuración (Naranja) -->
+        <a href="#" class="icon-card">
+            <div class="icon-circle icon-orange">⚙️</div>
+            <div class="icon-label">Ajustes</div>
+        </a>
+
+        <!-- Icono: Cerrar Sesión (Rojo) -->
+        <a href="/logout" class="icon-card">
+            <div class="icon-circle icon-red">🚪</div>
+            <div class="icon-label">Salir</div>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>
