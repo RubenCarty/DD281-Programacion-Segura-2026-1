@@ -1,0 +1,41 @@
+=== TAREA 1.3 — DEMOSTRACIÓN IDOR (Insecure Direct Object Reference) ===
+Alumno: Omar Rivera Castillo | Código: 2221895826
+
+ESCENARIO:
+  Usuario autenticado: carlos  (user_id = 2)
+  Documento objetivo:  id = 1  ("Contrato Confidencial", propietario admin, id=1)
+  Carlos NO es el propietario del documento 1.
+
+PASO 1 — Login como carlos (realizado en Tarea 1.2, sesion activa).
+
+PASO 2 — Acceder al documento del admin sin ser el propietario:
+  Solicitud: GET http://localhost:5001/documento/1
+  Respuesta HTTP Status: 200
+  Cuerpo de respuesta:   {'contenido': 'Datos sensibles del contrato...', 'titulo': 'Contrato Confidencial'}
+
+RESULTADO:
+  IDOR_EXITOSO = True   (debe ser True)
+
+  Carlos pudo leer el "Contrato Confidencial" del admin.
+  El servidor devolvio datos sensibles sin verificar la propiedad del recurso.
+
+ANALISIS:
+  Linea vulnerable en ver_documento() (app_vulnerable.py ~linea 103):
+    doc = conn.execute("SELECT * FROM documentos WHERE id = ?", (doc_id,)).fetchone()
+
+  El problema: la consulta filtra solo por id, sin verificar propietario_id.
+  Cualquier usuario autenticado puede leer CUALQUIER documento cambiando el numero en la URL.
+
+PREGUNTAS RESPONDIDAS:
+  1. Linea que permite el ataque:
+       doc = conn.execute("SELECT * FROM documentos WHERE id = ?", (doc_id,)).fetchone()
+     Correccion: agregar AND propietario_id = usuario_id en la consulta.
+
+  2. Categoria OWASP: A01:2021 - Broken Access Control
+     IDOR es la forma mas frecuente de control de acceso roto a nivel de objeto.
+
+  3. Como descubre un atacante los IDs validos en produccion:
+     - Enumeracion secuencial: /documento/1, /documento/2, /documento/3...
+     - El login vulnerable expone user_id=2, sugiriendo IDs son enteros bajos.
+     - Herramientas como Burp Suite Intruder automatizan el fuzzing de IDs.
+     - Analizar otras rutas de la API que devuelvan IDs en sus respuestas JSON.

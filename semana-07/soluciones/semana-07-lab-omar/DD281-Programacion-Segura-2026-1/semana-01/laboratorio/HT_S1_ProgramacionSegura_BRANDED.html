@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hoja de Trabajo – Programación Segura – Semana 1</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #0F2545;
+  --blue:   #1A5CB8;
+  --lblue:  #D4E6F7;
+  --red:    #B91C1C;
+  --orange: #D45A00;
+  --teal:   #0B6E5B;
+  --lteal:  #CCF0E8;
+  --gray:   #F3F4F6;
+  --dgray:  #4B5563;
+  --mgray:  #9CA3AF;
+  --white:  #FFFFFF;
+  --yellow: #FEF08A;
+  --lyellow:#FEFCE8;
+  --green:  #D1FAE5;
+  --black:  #111827;
+  --mono:   'IBM Plex Mono', monospace;
+  --head:   'Barlow Condensed', sans-serif;
+  --body:   'Barlow', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: #E5E7EB; }
+body {
+  font-family: var(--body);
+  font-size: 11pt;
+  color: var(--black);
+  background: #E5E7EB;
+  padding: 20px 0 60px;
+}
+
+/* ── PAGE ── */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  background: white;
+  margin: 0 auto 32px;
+  padding: 16mm 16mm 16mm;
+  position: relative;
+  box-shadow: 0 4px 24px rgba(0,0,0,.18);
+}
+
+/* ── RUNNING HEADER ── */
+.run-header {
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 2px solid var(--navy);
+  padding-bottom: 5px; margin-bottom: 14px;
+  font-family: var(--body); font-size: 8.5pt; color: var(--dgray);
+}
+.run-header .logo-text {
+  font-family: var(--head); font-size: 11pt; font-weight: 700;
+  color: var(--navy); letter-spacing: .5px;
+}
+.page-num {
+  background: var(--navy); color: white;
+  font-size: 8pt; font-weight: 600;
+  padding: 2px 8px; border-radius: 3px;
+}
+
+/* ── COVER HERO ── */
+.cover-hero {
+  background: var(--navy);
+  padding: 28px 28px 24px;
+  margin: 0 -16mm 18px;
+  position: relative;
+  overflow: hidden;
+}
+.cover-hero::before {
+  content: '';
+  position: absolute; top: -30px; right: -30px;
+  width: 200px; height: 200px;
+  border: 40px solid rgba(255,255,255,.05);
+  border-radius: 50%;
+}
+.cover-hero::after {
+  content: '';
+  position: absolute; bottom: -50px; left: 60px;
+  width: 160px; height: 160px;
+  border: 30px solid rgba(255,255,255,.04);
+  border-radius: 50%;
+}
+.cover-kicker {
+  font-family: var(--body); font-size: 8.5pt; font-weight: 500;
+  color: rgba(255,255,255,.55); letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.cover-course {
+  font-family: var(--head); font-size: 38pt; font-weight: 800; line-height: .95;
+  color: white; letter-spacing: -1px;
+}
+.cover-course span { color: var(--yellow); }
+.cover-sub {
+  font-family: var(--body); font-size: 10.5pt; font-weight: 400;
+  color: rgba(255,255,255,.7); margin-top: 8px; font-style: italic;
+}
+.cover-badge {
+  display: inline-block;
+  background: var(--red); color: white;
+  font-family: var(--head); font-size: 11pt; font-weight: 700;
+  padding: 4px 14px; border-radius: 3px; margin-top: 16px;
+  letter-spacing: .5px;
+}
+
+/* ── DATA GRID ── */
+.data-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0; border: 1.5px solid var(--navy);
+  border-radius: 4px; overflow: hidden; margin-bottom: 14px;
+}
+.data-cell {
+  display: flex; align-items: stretch;
+}
+.data-label {
+  background: var(--blue); color: white;
+  font-family: var(--body); font-size: 8.5pt; font-weight: 600;
+  padding: 6px 10px; min-width: 90px;
+  display: flex; align-items: center;
+}
+.data-value {
+  background: var(--gray); border-left: 1px solid #D1D5DB;
+  flex: 1; padding: 6px 10px;
+  font-size: 8.5pt; color: var(--dgray);
+}
+.data-cell.full { grid-column: 1/-1; }
+
+/* ── LEARNING OUTCOME ── */
+.outcome-box {
+  background: var(--lteal); border-left: 4px solid var(--teal);
+  padding: 10px 14px; border-radius: 0 4px 4px 0;
+  margin-bottom: 14px;
+}
+.outcome-box .label {
+  font-family: var(--head); font-size: 10pt; font-weight: 700;
+  color: var(--teal); letter-spacing: .5px; margin-bottom: 3px;
+}
+.outcome-box p {
+  font-size: 9.5pt; color: #064E3B; line-height: 1.5; font-style: italic;
+}
+
+/* ── SECTION TABLE ── */
+.sec-table { width: 100%; border-collapse: collapse; font-size: 8.5pt; margin-bottom: 10px; }
+.sec-table th {
+  background: var(--navy); color: white;
+  font-family: var(--head); font-weight: 700; font-size: 9pt;
+  padding: 5px 8px; text-align: left; letter-spacing: .3px;
+}
+.sec-table th:nth-child(1) { width: 36px; text-align: center; }
+.sec-table th:nth-child(2) { width: 48px; text-align: center; }
+.sec-table th:nth-child(4) { width: 76px; text-align: center; }
+.sec-table td {
+  padding: 5px 8px; border-bottom: 1px solid #E5E7EB;
+  vertical-align: middle;
+}
+.sec-table tr:nth-child(even) td { background: var(--gray); }
+.sec-badge {
+  display: inline-block;
+  background: var(--red); color: white;
+  font-family: var(--head); font-weight: 700; font-size: 9pt;
+  padding: 1px 7px; border-radius: 2px;
+}
+.sec-pct { font-weight: 600; color: var(--blue); }
+.sec-time { color: var(--mgray); font-style: italic; }
+.warning-strip {
+  background: var(--lyellow); border-left: 3px solid var(--orange);
+  padding: 7px 12px; font-size: 8.5pt; color: #78350F;
+  font-style: italic; border-radius: 0 3px 3px 0; margin-top: 8px;
+}
+
+/* ── SECTION HEADER BAR ── */
+.sec-bar {
+  display: flex; align-items: stretch;
+  margin: 0 -16mm 14px; background: var(--navy);
+}
+.sec-bar-letter {
+  background: var(--red);
+  font-family: var(--head); font-size: 30pt; font-weight: 800;
+  color: white; padding: 8px 16px;
+  display: flex; align-items: center; justify-content: center;
+  min-width: 60px;
+}
+.sec-bar-content {
+  flex: 1; padding: 8px 16px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.sec-bar-title {
+  font-family: var(--head); font-size: 15pt; font-weight: 800;
+  color: white; letter-spacing: .3px; line-height: 1;
+}
+.sec-bar-sub {
+  font-size: 8pt; color: rgba(255,255,255,.55); margin-top: 2px;
+}
+.sec-bar-pct {
+  background: var(--blue);
+  font-family: var(--head); font-size: 14pt; font-weight: 700;
+  color: white; padding: 8px 16px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-width: 80px;
+}
+.sec-bar-pct small { font-size: 7.5pt; color: rgba(255,255,255,.6); font-family: var(--body); font-weight: 400; }
+
+/* ── INSTRUCTION STRIP ── */
+.instr {
+  font-size: 9pt; color: var(--dgray); font-style: italic;
+  margin-bottom: 10px; padding-left: 2px;
+}
+
+/* ── COMPLETE-FRASE ── */
+.frase-item { margin-bottom: 13px; }
+.frase-num {
+  font-family: var(--head); font-weight: 700; font-size: 11pt; color: var(--blue);
+  display: inline; margin-right: 4px;
+}
+.frase-text { font-size: 10pt; line-height: 1.6; }
+.frase-blank { display: inline-block; border-bottom: 1.5px solid var(--navy); min-width: 110px; height: 14px; vertical-align: bottom; }
+.answer-line {
+  display: block; margin-top: 4px; padding-left: 22px;
+  font-size: 9pt; color: var(--mgray);
+  font-style: italic;
+}
+.answer-line::before { content: 'Respuesta: '; font-weight: 500; }
+.answer-line span { display: inline-block; border-bottom: 1px solid var(--mgray); min-width: 260px; }
+
+/* ── RELATE TABLE ── */
+.relate-wrap { overflow: visible; margin-bottom: 4px; }
+.relate-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+.relate-table thead th {
+  background: var(--navy); color: white;
+  font-family: var(--head); font-weight: 700; font-size: 9.5pt;
+  padding: 5px 8px;
+}
+.relate-table thead th:nth-child(2) { background: var(--orange); width: 52px; text-align: center; }
+.relate-table tbody tr:nth-child(even) td { background: var(--gray); }
+.relate-table tbody td {
+  border: 1px solid #E5E7EB; padding: 6px 8px; vertical-align: middle;
+  line-height: 1.35;
+}
+.relate-table tbody td:nth-child(1) { font-weight: 600; color: var(--navy); width: 38%; }
+.relate-table tbody td:nth-child(2) {
+  background: var(--lyellow) !important;
+  text-align: center; font-size: 13pt; font-weight: 700;
+  color: var(--navy); width: 52px; font-family: var(--head);
+}
+.relate-table tbody td:nth-child(3) { font-size: 8.5pt; color: var(--dgray); }
+
+/* ── CODE BLOCK ── */
+.code-block {
+  background: #1E1E2E;
+  border-left: 4px solid var(--orange);
+  border-radius: 0 4px 4px 0;
+  padding: 10px 14px;
+  font-family: var(--mono); font-size: 8.5pt; color: #CDD6F4;
+  line-height: 1.6; margin-bottom: 6px;
+  white-space: pre;
+}
+.blank-code {
+  display: inline-block;
+  border-bottom: 1.5px solid #F38BA8;
+  min-width: 50px; color: #F38BA8;
+}
+.hint-strip {
+  background: var(--lteal); border-left: 3px solid var(--teal);
+  padding: 5px 10px; font-size: 8pt; color: #065F46;
+  border-radius: 0 3px 3px 0; margin-bottom: 14px;
+}
+.hint-strip b { color: var(--teal); }
+
+/* ── EXERCISE HEADER ── */
+.ex-header {
+  background: var(--lblue); border-left: 4px solid var(--blue);
+  padding: 6px 10px; border-radius: 0 3px 3px 0;
+  margin-bottom: 6px; font-size: 9.5pt;
+}
+.ex-header b { font-family: var(--head); font-weight: 700; color: var(--navy); font-size: 11pt; }
+.ex-header em { color: var(--blue); font-style: normal; }
+
+/* ── ANALYSIS FRAGMENT ── */
+.frag-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.frag-num { font-family: var(--head); font-size: 13pt; font-weight: 800; color: var(--navy); }
+.frag-tipo { font-size: 8pt; color: var(--dgray); font-style: italic; }
+.badge-secure {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #D1FAE5; color: #065F46;
+  font-size: 8pt; font-weight: 600; padding: 2px 8px; border-radius: 3px;
+}
+.badge-insecure {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #FEE2E2; color: #991B1B;
+  font-size: 8pt; font-weight: 600; padding: 2px 8px; border-radius: 3px;
+}
+.analysis-grid {
+  display: grid; grid-template-columns: 1fr;
+  gap: 0; border: 1.5px solid #E5E7EB; border-radius: 4px; overflow: hidden; margin-bottom: 16px;
+}
+.analysis-row-label {
+  background: var(--gray); border-bottom: 1px solid #E5E7EB;
+  padding: 5px 10px; font-size: 8.5pt; font-weight: 600; color: var(--navy);
+}
+.analysis-row-label:nth-child(3) { background: var(--lblue); }
+.analysis-row-label:nth-child(5) { background: var(--lteal); }
+.answer-lines {
+  border-bottom: 1px solid #E5E7EB;
+}
+.answer-row {
+  height: 24px; border-bottom: 1px solid #F3F4F6;
+  padding: 0 8px;
+}
+.answer-row:last-child { border-bottom: none; }
+
+/* ── THREAT MODEL TABLES ── */
+.threat-section-title {
+  font-family: var(--head); font-weight: 700; font-size: 11pt;
+  color: white; background: var(--teal);
+  padding: 5px 10px; margin-bottom: 0;
+  border-radius: 3px 3px 0 0;
+}
+.data-table { width: 100%; border-collapse: collapse; font-size: 8.5pt; margin-bottom: 14px; }
+.data-table th {
+  background: var(--navy); color: white;
+  font-weight: 600; padding: 5px 8px; text-align: left;
+  font-size: 8pt;
+}
+.data-table th.teal { background: var(--teal); }
+.data-table th.orange { background: var(--orange); }
+.data-table th.blue { background: var(--blue); }
+.data-table td {
+  border: 1px solid #E5E7EB;
+  padding: 0; height: 26px; vertical-align: middle;
+}
+.data-table tr:nth-child(even) td { background: var(--gray); }
+.td-num {
+  text-align: center; font-weight: 700; font-family: var(--head);
+  font-size: 11pt; color: var(--blue); width: 30px;
+  border-right: 1px solid #E5E7EB;
+}
+
+/* ── CASE USE ── */
+.cu-header {
+  background: var(--navy); color: white;
+  font-family: var(--head); font-size: 13pt; font-weight: 800;
+  padding: 8px 12px; border-radius: 4px 4px 0 0;
+  letter-spacing: .3px; margin-bottom: 0;
+}
+.cu-table { width: 100%; border-collapse: collapse; font-size: 9pt; margin-bottom: 16px; }
+.cu-table .field-label {
+  background: var(--lblue); font-weight: 600; color: var(--navy);
+  padding: 5px 8px; border: 1px solid #BFDBF7;
+  width: 130px; vertical-align: top;
+}
+.cu-table .field-value {
+  border: 1px solid #E5E7EB; padding: 0;
+  vertical-align: top;
+}
+.cu-table .answer-row { height: 22px; border-bottom: 1px solid #F3F4F6; }
+
+/* ── SDLC TABLE ── */
+.sdlc-table { width: 100%; border-collapse: collapse; font-size: 8.5pt; margin-bottom: 14px; }
+.sdlc-table th {
+  background: var(--navy); color: white; font-weight: 600;
+  padding: 5px 10px; text-align: left;
+}
+.sdlc-table td {
+  border: 1px solid #E5E7EB; padding: 8px 10px; vertical-align: top;
+}
+.sdlc-table .phase-cell {
+  background: var(--lblue); font-weight: 600; color: var(--navy);
+  width: 110px; vertical-align: middle;
+}
+.sdlc-table .phase-hint { font-size: 7.5pt; color: var(--mgray); font-style: italic; font-weight: 400; margin-top: 2px; }
+.sdlc-line { border: none; border-bottom: 1px solid #D1D5DB; height: 22px; margin: 2px 0; display: block; width: 100%; }
+
+/* ── MINI LAB ── */
+.lab-hero {
+  background: var(--navy); padding: 16px 20px;
+  border-radius: 4px; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 16px;
+}
+.lab-hero-icon {
+  font-family: var(--head); font-size: 32pt; font-weight: 800;
+  color: var(--yellow); line-height: 1;
+}
+.lab-hero-text h3 {
+  font-family: var(--head); font-size: 14pt; font-weight: 800;
+  color: white; letter-spacing: .5px;
+}
+.lab-hero-text p {
+  font-size: 8.5pt; color: rgba(255,255,255,.6); margin-top: 2px;
+}
+.req-item { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
+.req-bullet {
+  background: var(--blue); color: white;
+  font-family: var(--head); font-weight: 700; font-size: 9pt;
+  padding: 1px 7px; border-radius: 2px; flex-shrink: 0; margin-top: 1px;
+}
+.req-text { font-size: 9.5pt; line-height: 1.45; }
+.capture-box {
+  border: 2px dashed #D1D5DB; border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--mgray); font-style: italic; font-size: 9pt;
+  margin-bottom: 12px;
+}
+.explain-table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+.explain-table th {
+  background: var(--blue); color: white; font-weight: 600;
+  padding: 5px 8px;
+}
+.explain-table td {
+  border: 1px solid #E5E7EB; padding: 0; vertical-align: middle;
+}
+.explain-table .line-num {
+  background: var(--navy); color: var(--yellow);
+  font-family: var(--head); font-weight: 700; font-size: 12pt;
+  text-align: center; width: 32px;
+}
+.explain-answer { height: 56px; }
+
+/* ── RUBRIC ── */
+.rubric-table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+.rubric-table th {
+  background: var(--navy); color: white; font-weight: 600;
+  padding: 5px 8px;
+}
+.rubric-table td { border: 1px solid #E5E7EB; padding: 7px 9px; vertical-align: top; }
+.rubric-table tr:nth-child(even) td { background: var(--gray); }
+.rubric-table .r-sec {
+  background: var(--red) !important; color: white;
+  font-family: var(--head); font-weight: 700; font-size: 11pt;
+  text-align: center; width: 36px;
+}
+.rubric-table .r-pts {
+  text-align: center; font-weight: 700; color: var(--navy);
+  font-family: var(--head); font-size: 12pt; width: 56px;
+}
+.rubric-total td { background: var(--navy) !important; color: white !important; }
+.rubric-total .r-pts { color: var(--yellow) !important; font-size: 16pt; }
+.sign-row {
+  display: flex; justify-content: space-between;
+  margin-top: 14px; padding-top: 8px; border-top: 1.5px solid var(--navy);
+  font-size: 9pt; color: var(--dgray);
+}
+.sign-line { border-bottom: 1px solid var(--navy); min-width: 200px; display: inline-block; }
+
+/* ── PRINT ── */
+@media print {
+  html { background: white; }
+  body { background: white; padding: 0; }
+  .page {
+    width: 210mm; padding: 13mm 13mm 13mm;
+    box-shadow: none; margin: 0; page-break-after: always;
+  }
+  .page:last-child { page-break-after: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ PAGE 1 — COVER ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>Facultad de Ingeniería y Arquitectura &nbsp;·&nbsp; Ingeniería de Sistemas &nbsp;·&nbsp; Ciclo VIII</span>
+    <span class="page-num">1</span>
+  </div>
+
+  <div class="cover-hero">
+    <div class="cover-kicker">Hoja de Trabajo — Semana 1 — DD281</div>
+    <div class="cover-course">PROGRAMACIÓN<br><span>SEGURA</span></div>
+    <div class="cover-sub">Introducción a la Programación Segura y Modelado de Seguridad</div>
+    <div class="cover-badge">⏱ 5 Horas Académicas Presenciales</div>
+  </div>
+
+  <div style="height:14px"></div>
+
+  <div class="data-grid">
+    <div class="data-cell">
+      <div class="data-label">Docente</div>
+      <div class="data-value"></div>
+    </div>
+    <div class="data-cell">
+      <div class="data-label">Semana</div>
+      <div class="data-value">Semana 1 &nbsp;·&nbsp; Semestre 202601</div>
+    </div>
+    <div class="data-cell full">
+      <div class="data-label">Estudiante</div>
+      <div class="data-value"></div>
+    </div>
+    <div class="data-cell">
+      <div class="data-label">Fecha</div>
+      <div class="data-value"></div>
+    </div>
+    <div class="data-cell">
+      <div class="data-label">Nota Final</div>
+      <div class="data-value"></div>
+    </div>
+  </div>
+
+  <div class="outcome-box">
+    <div class="label">🎯 Resultado de Aprendizaje</div>
+    <p>Al finalizar la sesión, el estudiante elabora un plan de desarrollo y diseña casos de uso relacionados con la seguridad del sistema.</p>
+  </div>
+
+  <table class="sec-table">
+    <thead>
+      <tr><th>Sec.</th><th>Peso</th><th>Contenido</th><th>Tiempo</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="sec-badge">A</span></td><td class="sec-pct">15%</td><td>Completar la Frase — 20 ejercicios de conceptos clave</td><td class="sec-time">~30 min</td></tr>
+      <tr><td><span class="sec-badge">B</span></td><td class="sec-pct">15%</td><td>Relacionar Conceptos — 20 pares columna A / columna B</td><td class="sec-time">~25 min</td></tr>
+      <tr><td><span class="sec-badge">C</span></td><td class="sec-pct">35%</td><td>Completar el Código — 15 ejercicios en Java</td><td class="sec-time">~70 min</td></tr>
+      <tr><td><span class="sec-badge">D</span></td><td class="sec-pct">20%</td><td>Análisis de Código — 10 fragmentos seguros e inseguros</td><td class="sec-time">~45 min</td></tr>
+      <tr><td><span class="sec-badge">E</span></td><td class="sec-pct">—</td><td>Modelado de Amenazas — Caso RetailPlus (5 tablas)</td><td class="sec-time">~35 min</td></tr>
+      <tr><td><span class="sec-badge">F</span></td><td class="sec-pct">—</td><td>Casos de Uso Seguros — 3 plantillas completas</td><td class="sec-time">~25 min</td></tr>
+      <tr><td><span class="sec-badge">G</span></td><td class="sec-pct">—</td><td>Plan de Desarrollo Seguro — Tabla SDLC 6 fases</td><td class="sec-time">~10 min</td></tr>
+      <tr><td><span class="sec-badge">H</span></td><td class="sec-pct">20%</td><td>Mini Reto de PC — Login seguro en Java</td><td class="sec-time">~30 min</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warning-strip">⚠&nbsp; Desarrolle toda la guía A MANO. No se aceptan respuestas impresas. Cuide la ortografía y la claridad de sus diagramas.</div>
+</div>
+
+
+<!-- ══════════════ PAGE 2 — SECCIÓN A ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>PROGRAMACIÓN SEGURA — Semana 1</span>
+    <span class="page-num">2</span>
+  </div>
+
+  <div class="sec-bar">
+    <div class="sec-bar-letter">A</div>
+    <div class="sec-bar-content">
+      <div class="sec-bar-title">COMPLETE LA FRASE</div>
+      <div class="sec-bar-sub">20 ejercicios — escriba el término técnico más preciso</div>
+    </div>
+    <div class="sec-bar-pct">15%<small>~30 min</small></div>
+  </div>
+  <p class="instr">Complete cada oración con el concepto de programación segura correspondiente. Escriba el término con letra clara sobre la línea de respuesta.</p>
+
+  <div style="columns:1;column-gap:0">
+  <!-- 1-10 -->
+  <div class="frase-item">
+    <span class="frase-num">1.</span>
+    <span class="frase-text">La <span class="frase-blank"></span> es el proceso de verificar la identidad de un usuario antes de permitirle el acceso a un sistema.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">2.</span>
+    <span class="frase-text">La <span class="frase-blank"></span> garantiza que la información no sea modificada sin autorización por parte de personas no autorizadas.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">3.</span>
+    <span class="frase-text">La <span class="frase-blank"></span> asegura que los sistemas y datos estén disponibles para los usuarios autorizados en el momento en que los necesitan.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">4.</span>
+    <span class="frase-text">Una <span class="frase-blank"></span> es una debilidad en el diseño, implementación o configuración de un sistema que puede ser explotada por un atacante.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">5.</span>
+    <span class="frase-text">Una <span class="frase-blank"></span> es cualquier circunstancia o evento con el potencial de causar daño a un activo de información.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">6.</span>
+    <span class="frase-text">El <span class="frase-blank"></span> se define como la combinación de la probabilidad de que ocurra un evento adverso y el impacto resultante sobre los activos.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">7.</span>
+    <span class="frase-text">OWASP son las siglas de <span class="frase-blank" style="min-width:160px"></span>, una fundación sin fines de lucro que publica el Top 10 de vulnerabilidades web.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">8.</span>
+    <span class="frase-text">La <span class="frase-blank"></span> define qué recursos o acciones puede ejecutar un usuario dentro del sistema una vez que ya ha sido autenticado.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">9.</span>
+    <span class="frase-text">Un <span class="frase-blank"></span> es cualquier recurso de valor para la organización, como datos, sistemas, infraestructura o personas.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">10.</span>
+    <span class="frase-text">El principio de <span class="frase-blank" style="min-width:120px"></span> establece que cada usuario debe tener únicamente los permisos necesarios para realizar su trabajo.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ PAGE 3 — SECCIÓN A (cont.) ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>PROGRAMACIÓN SEGURA — Semana 1 — Sección A (continuación)</span>
+    <span class="page-num">3</span>
+  </div>
+
+  <div class="frase-item">
+    <span class="frase-num">11.</span>
+    <span class="frase-text">La <span class="frase-blank" style="min-width:120px"></span> de un sistema consiste en definir los requerimientos de seguridad desde las fases iniciales del desarrollo del software.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">12.</span>
+    <span class="frase-text">Un <span class="frase-blank"></span> es un mecanismo, proceso o tecnología implementado para reducir la probabilidad o el impacto de una amenaza o vulnerabilidad.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">13.</span>
+    <span class="frase-text">La <span class="frase-blank"></span> es una técnica de ataque que manipula a las personas para obtener información confidencial aprovechando su confianza.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">14.</span>
+    <span class="frase-text">El <span class="frase-blank"></span> garantiza que las acciones realizadas en un sistema puedan atribuirse de forma inequívoca e irrefutable a quien las ejecutó.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">15.</span>
+    <span class="frase-text">El <span class="frase-blank"></span> de amenazas es una técnica sistemática para identificar y priorizar posibles ataques contra un sistema antes de construirlo.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">16.</span>
+    <span class="frase-text">La criptografía <span class="frase-blank"></span> utiliza un par de claves —una pública y una privada— para cifrar y descifrar información de forma segura.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">17.</span>
+    <span class="frase-text">Una función de <span class="frase-blank"></span> transforma datos de cualquier tamaño en una cadena de longitud fija, siendo un proceso matemáticamente irreversible.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">18.</span>
+    <span class="frase-text">En los <span class="frase-blank" style="min-width:130px"></span> seguros se documenta el flujo que el sistema debe seguir para proteger una funcionalidad frente a posibles ataques o abusos.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">19.</span>
+    <span class="frase-text">La autenticación <span class="frase-blank"></span> (MFA) combina dos o más factores de verificación para aumentar significativamente la seguridad del acceso.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+  <div class="frase-item">
+    <span class="frase-num">20.</span>
+    <span class="frase-text">El ciclo de vida de desarrollo seguro (<span class="frase-blank" style="min-width:60px"></span>) integra actividades y controles de seguridad en cada fase del proceso de construcción del software.</span>
+    <span class="answer-line"><span></span></span>
+  </div>
+</div>
+
+
+<!-- ══════════════ PAGE 4 — SECCIÓN B ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>PROGRAMACIÓN SEGURA — Semana 1</span>
+    <span class="page-num">4</span>
+  </div>
+
+  <div class="sec-bar">
+    <div class="sec-bar-letter">B</div>
+    <div class="sec-bar-content">
+      <div class="sec-bar-title">RELACIONE CONCEPTOS</div>
+      <div class="sec-bar-sub">Escriba en la columna central la letra de la definición correspondiente</div>
+    </div>
+    <div class="sec-bar-pct">15%<small>~25 min</small></div>
+  </div>
+
+  <table class="relate-table">
+    <thead>
+      <tr>
+        <th style="width:38%">Columna A — Concepto</th>
+        <th style="width:52px">→</th>
+        <th>Columna B — Definición</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1.&nbsp; Amenaza</td><td></td><td>a) Software malicioso diseñado para dañar, robar o comprometer sistemas.</td></tr>
+      <tr><td>2.&nbsp; Vulnerabilidad</td><td></td><td>b) Proceso de verificar que un usuario es quien dice ser.</td></tr>
+      <tr><td>3.&nbsp; Riesgo</td><td></td><td>c) Técnica que inserta código malicioso en páginas web para ejecutarse en el navegador del visitante.</td></tr>
+      <tr><td>4.&nbsp; Firewall</td><td></td><td>d) Recurso de valor para la organización: datos, hardware, software o servicios.</td></tr>
+      <tr><td>5.&nbsp; IDS</td><td></td><td>e) Fundación que publica el Top 10 de vulnerabilidades web más críticas.</td></tr>
+      <tr><td>6.&nbsp; IPS</td><td></td><td>f) Mecanismo que filtra el tráfico de red según reglas de seguridad predefinidas.</td></tr>
+      <tr><td>7.&nbsp; OWASP</td><td></td><td>g) Acción deliberada que explota una vulnerabilidad para comprometer la seguridad.</td></tr>
+      <tr><td>8.&nbsp; Hash</td><td></td><td>h) Sistema que detecta actividad sospechosa en la red y genera alertas.</td></tr>
+      <tr><td>9.&nbsp; Cifrado</td><td></td><td>i) Proceso de transformar datos legibles en un formato ilegible mediante una clave.</td></tr>
+      <tr><td>10.&nbsp; MFA</td><td></td><td>j) Debilidad en un sistema que puede ser aprovechada por un atacante.</td></tr>
+      <tr><td>11.&nbsp; Autenticación</td><td></td><td>k) Sistema que detecta Y bloquea activamente el tráfico malicioso en la red.</td></tr>
+      <tr><td>12.&nbsp; Autorización</td><td></td><td>l) Técnica que manipula a personas para revelar información confidencial.</td></tr>
+      <tr><td>13.&nbsp; Activo</td><td></td><td>m) Combinación de probabilidad de ataque e impacto sobre los activos.</td></tr>
+      <tr><td>14.&nbsp; Control de seguridad</td><td></td><td>n) Función que transforma datos en una cadena de longitud fija e irreversible.</td></tr>
+      <tr><td>15.&nbsp; Ataque</td><td></td><td>o) Técnica sistemática para identificar amenazas en un sistema antes de construirlo.</td></tr>
+      <tr><td>16.&nbsp; Ingeniería social</td><td></td><td>p) Mecanismo que define qué puede hacer un usuario ya autenticado.</td></tr>
+      <tr><td>17.&nbsp; Malware</td><td></td><td>q) Uso de dos o más factores para verificar la identidad de un usuario.</td></tr>
+      <tr><td>18.&nbsp; SQL Injection</td><td></td><td>r) Medida implementada para reducir la probabilidad o impacto de una amenaza.</td></tr>
+      <tr><td>19.&nbsp; XSS</td><td></td><td>s) Evento o circunstancia con potencial de causar daño a un activo.</td></tr>
+      <tr><td>20.&nbsp; Modelado de amenazas</td><td></td><td>t) Ataque que inyecta sentencias SQL en formularios para manipular la base de datos.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════ PAGE 5 — SECCIÓN C (1-5) ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>PROGRAMACIÓN SEGURA — Semana 1</span>
+    <span class="page-num">5</span>
+  </div>
+
+  <div class="sec-bar">
+    <div class="sec-bar-letter">C</div>
+    <div class="sec-bar-content">
+      <div class="sec-bar-title">COMPLETE EL CÓDIGO</div>
+      <div class="sec-bar-sub">15 ejercicios en Java — complete los espacios en blanco con la instrucción correcta</div>
+    </div>
+    <div class="sec-bar-pct">35%<small>~70 min</small></div>
+  </div>
+
+  <div class="ex-header"><b>Ejercicio 1:</b> <em>Validación de longitud mínima de contraseña</em></div>
+  <pre class="code-block">Scanner sc = new Scanner(System.in);
+System.out.print("Ingrese contraseña: ");
+String password = sc.nextLine();
+
+if (password.length() &lt; <span class="blank-code">_____</span>) {
+    System.out.println("Error: contraseña demasiado corta");
+} else {
+    System.out.println("Longitud aceptable");
+}</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Longitud mínima recomendada por NIST para contraseñas: 8 caracteres.</div>
+
+  <div class="ex-header"><b>Ejercicio 2:</b> <em>Verificar presencia de dígito en la contraseña</em></div>
+  <pre class="code-block">boolean tieneNumero = false;
+for (char c : password.toCharArray()) {
+    if (Character.<span class="blank-code">___________</span>(c)) {
+        tieneNumero = <span class="blank-code">_____</span>;
+        break;
+    }
+}
+System.out.println("¿Tiene número? " + tieneNumero);</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Método de la clase Character que retorna true si el carácter es un dígito (0-9).</div>
+
+  <div class="ex-header"><b>Ejercicio 3:</b> <em>Verificar presencia de letra mayúscula</em></div>
+  <pre class="code-block">boolean tieneMayuscula = false;
+for (char c : password.toCharArray()) {
+    if (Character.<span class="blank-code">___________</span>(c)) {
+        tieneMayuscula = <span class="blank-code">_____</span>;
+        break;
+    }
+}
+if (!tieneMayuscula)
+    System.out.println("Incluya al menos una mayúscula");</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Método de Character que retorna true si el carácter es una letra mayúscula.</div>
+
+  <div class="ex-header"><b>Ejercicio 4:</b> <em>Validación completa de contraseña robusta</em></div>
+  <pre class="code-block">public static boolean esContrasenaSegura(String pass) {
+    if (pass == null || pass.<span class="blank-code">________</span> &lt; 8)  return false;
+    boolean num  = pass.<span class="blank-code">________</span>("[^0-9]*[0-9].*");
+    boolean may  = pass.<span class="blank-code">________</span>("[^A-Z]*[A-Z].*");
+    boolean sim  = pass.<span class="blank-code">________</span>(".*[!@#$%^&amp;*].*");
+    return num &amp;&amp; may &amp;&amp; sim;
+}</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Propiedad de longitud de String — Método que evalúa si una cadena cumple una expresión regular.</div>
+
+  <div class="ex-header"><b>Ejercicio 5:</b> <em>Validación de correo electrónico con expresión regular</em></div>
+  <pre class="code-block">import java.util.regex.*;
+
+String correo = sc.nextLine();
+Pattern patron = Pattern.compile(
+    "<span class="blank-code">___________________________</span>");
+Matcher m = patron.matcher(correo);
+
+if (m.<span class="blank-code">________</span>()) {
+    System.out.println("Correo válido");
+} else {
+    System.out.println("Correo inválido");
+}</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Patrón: ^[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,}$ &nbsp;—&nbsp; Método de Matcher que verifica coincidencia total.</div>
+</div>
+
+
+<!-- ══════════════ PAGE 6 — SECCIÓN C (6-10) ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>PROGRAMACIÓN SEGURA — Semana 1 — Sección C (continuación)</span>
+    <span class="page-num">6</span>
+  </div>
+
+  <div class="ex-header"><b>Ejercicio 6:</b> <em>Validación de nombre de usuario alfanumérico</em></div>
+  <pre class="code-block">String usuario = sc.nextLine().<span class="blank-code">________</span>();
+
+if (!usuario.<span class="blank-code">________</span>("^[a-zA-Z0-9_]{4,20}$")) {
+    System.out.println("Usuario inválido: solo letras, " +
+        "números y guion bajo, entre 4 y 20 caracteres");
+}</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Método que elimina espacios al inicio y al fin — Método que evalúa la cadena contra una expresión regular.</div>
+
+  <div class="ex-header"><b>Ejercicio 7:</b> <em>Sanitización básica: eliminar caracteres peligrosos</em></div>
+  <pre class="code-block">String entrada = sc.nextLine();
+// Elimina &lt; &gt; ' " ; -- para prevenir inyecciones básicas
+String limpia = entrada
+    .<span class="blank-code">________</span>("&lt;","").<span class="blank-code">________</span>("&gt;","")
+    .<span class="blank-code">________</span>("'","").<span class="blank-code">________</span>("\"","")
+    .<span class="blank-code">________</span>(";","").<span class="blank-code">________</span>("--","");
+System.out.println("Entrada sanitizada: " + limpia);</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Método de String que reemplaza una subcadena por otra (no es replace con char, es con String).</div>
+
+  <div class="ex-header"><b>Ejercicio 8:</b> <em>Control de acceso basado en roles con switch</em></div>
+  <pre class="code-block">String rol = "VENDEDOR";
+
+<span class="blank-code">__________</span> (rol) {
+    case "ADMIN":
+        System.out.println("Acceso total al sistema");
+        <span class="blank-code">________</span>;
+    case "VENDEDOR":
+        System.out.println("Acceso a ventas y carrito");
+        <span class="blank-code">________</span>;
+    <span class="blank-code">________</span>:
+        System.out.println("Rol no reconocido: acceso denegado");
+}</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Estructura de control múltiple — Instrucción para salir del bloque — Palabra clave del caso por defecto.</div>
+
+  <div class="ex-header"><b>Ejercicio 9:</b> <em>Contador de intentos fallidos — bloqueo de cuenta</em></div>
+  <pre class="code-block">int intentosFallidos = 0;
+final int LIMITE = <span class="blank-code">_____</span>;
+boolean bloqueado = false;
+
+while (intentosFallidos &lt; LIMITE &amp;&amp; !bloqueado) {
+    String pass = sc.nextLine();
+    if (pass.<span class="blank-code">________</span>("ClaveCorrecta")) {
+        System.out.println("Acceso concedido");
+        break;
+    } else {
+        intentosFallidos++;
+        if (intentosFallidos &gt;= LIMITE) {
+            bloqueado = <span class="blank-code">_____</span>;
+            System.out.println("Cuenta bloqueada temporalmente");
+        }
+    }
+}</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Límite recomendado: 3 — Método de comparación de cadenas sensible a mayúsculas — Valor booleano.</div>
+
+  <div class="ex-header"><b>Ejercicio 10:</b> <em>Validar que la contraseña no sea igual ni contenga el nombre de usuario</em></div>
+  <pre class="code-block">String usuario = sc.nextLine().toLowerCase();
+String password = sc.nextLine().toLowerCase();
+
+if (password.<span class="blank-code">________</span>(usuario)) {
+    System.out.println("La contraseña no puede ser igual al usuario");
+} else if (password.<span class="blank-code">________</span>(usuario)) {
+    System.out.println("La contraseña no puede contener el usuario");
+} else {
+    System.out.println("Contraseña aceptada");
+}</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Método de comparación de contenido exacto — Método que verifica si una cadena contiene a otra.</div>
+</div>
+
+
+<!-- ══════════════ PAGE 7 — SECCIÓN C (11-15) ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>PROGRAMACIÓN SEGURA — Semana 1 — Sección C (continuación)</span>
+    <span class="page-num">7</span>
+  </div>
+
+  <div class="ex-header"><b>Ejercicio 11:</b> <em>Estructura if-else encadenada para validar datos de registro</em></div>
+  <pre class="code-block">String nombre = sc.nextLine().trim();
+String email  = sc.nextLine().trim();
+String pass   = sc.nextLine();
+
+if (nombre.<span class="blank-code">________</span>()) {
+    System.out.println("El nombre es obligatorio");
+} <span class="blank-code">__________</span> (!email.<span class="blank-code">________</span>("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,}$")) {
+    System.out.println("Email inválido");
+} <span class="blank-code">__________</span> (pass.length() &lt; 8) {
+    System.out.println("Contraseña muy corta");
+} else {
+    System.out.println("Registro válido");
+}</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Método que retorna true si la cadena está vacía — else if — matches.</div>
+
+  <div class="ex-header"><b>Ejercicio 12:</b> <em>Confirmación de nueva contraseña (verificar que coincidan)</em></div>
+  <pre class="code-block">System.out.print("Nueva contraseña: ");
+String pass1 = sc.nextLine();
+System.out.print("Confirme contraseña: ");
+String pass2 = sc.nextLine();
+
+if (!pass1.<span class="blank-code">________</span>(pass2)) {
+    System.out.println("Las contraseñas no coinciden");
+    return;
+}
+if (pass1.length() &lt; <span class="blank-code">_____</span>) {
+    System.out.println("Mínimo 8 caracteres requeridos");
+    return;
+}
+System.out.println("Contraseña actualizada correctamente");</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Método de comparación de contenido — Longitud mínima segura recomendada.</div>
+
+  <div class="ex-header"><b>Ejercicio 13:</b> <em>Validar que el ID de usuario sea un entero positivo</em></div>
+  <pre class="code-block">System.out.print("ID de usuario: ");
+String inputId = sc.nextLine().trim();
+int userId = -1;
+
+try {
+    userId = Integer.<span class="blank-code">________</span>(inputId);
+    if (userId <span class="blank-code">_____</span> 0) {
+        System.out.println("ID debe ser positivo");
+        userId = -1;
+    }
+} catch (<span class="blank-code">________________</span> e) {
+    System.out.println("ID no válido: ingrese un número entero");
+}</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Método para parsear String a int — Operador menor o igual que — Excepción para formato numérico inválido.</div>
+
+  <div class="ex-header"><b>Ejercicio 14:</b> <em>Validación de rango en menú de opciones</em></div>
+  <pre class="code-block">System.out.println("1. Iniciar sesión  |  2. Registrarse  |  3. Recuperar contraseña");
+System.out.print("Seleccione una opción: ");
+
+int opcion = -1;
+try {
+    opcion = Integer.parseInt(sc.nextLine());
+} catch (NumberFormatException e) {
+    System.out.println("Opción inválida");
+}
+
+if (opcion <span class="blank-code">_____</span> 1 <span class="blank-code">_____</span> opcion <span class="blank-code">_____</span> 3) {
+    System.out.println("Opción fuera de rango");
+}</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Operadores de comparación y operador lógico OR: &lt; &nbsp;|| &nbsp;&gt;</div>
+
+  <div class="ex-header"><b>Ejercicio 15:</b> <em>Mensaje de error genérico — no revelar si falló el usuario o la contraseña</em></div>
+  <pre class="code-block">// PRINCIPIO: no indicar cuál de los dos campos es incorrecto
+boolean usuarioExiste      = buscarUsuario(user);
+boolean contrasenaCorrecta = verificarPass(user, pass);
+
+if (<span class="blank-code">_________</span> || <span class="blank-code">_________</span>) {
+    // Mensaje AMBIGUO a propósito — nunca especifique cuál falló
+    System.out.println("<span class="blank-code">_______________________________</span>");
+} else {
+    iniciarSesion(user);
+    System.out.println("Bienvenido, " + user);
+}</pre>
+  <div class="hint-strip"><b>💡 Pista:</b> Niegue (!) cada condición — El mensaje debe ser ambiguo intencionalmente (ej: "Credenciales inválidas").</div>
+</div>
+
+
+<!-- ══════════════ PAGE 8 — SECCIÓN D ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>PROGRAMACIÓN SEGURA — Semana 1</span>
+    <span class="page-num">8</span>
+  </div>
+
+  <div class="sec-bar">
+    <div class="sec-bar-letter">D</div>
+    <div class="sec-bar-content">
+      <div class="sec-bar-title">ANÁLISIS DE CÓDIGO</div>
+      <div class="sec-bar-sub">10 fragmentos — identifique el problema, explique el riesgo y proponga mejora</div>
+    </div>
+    <div class="sec-bar-pct">20%<small>~45 min</small></div>
+  </div>
+  <p class="instr">Algunos fragmentos son seguros y otros inseguros. Analice cada uno con criterio técnico y responda las 3 preguntas.</p>
+
+  <!-- D1 -->
+  <div class="frag-header">
+    <span class="frag-num">Fragmento 1</span>
+    <span class="frag-tipo">[Contraseña en texto plano]</span>
+    <span class="badge-insecure">⚠ Posible problema</span>
+  </div>
+  <pre class="code-block">Scanner sc = new Scanner(System.in);
+System.out.print("Contraseña: ");
+String pass = sc.nextLine();
+
+if (pass.equals("Admin2024")) {
+    System.out.println("Acceso concedido");
+} else {
+    System.out.println("Acceso denegado");
+}</pre>
+  <div class="analysis-grid">
+    <div class="analysis-row-label">🔍 1. Identifique el problema de seguridad</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">⚠ 2. Explique el riesgo que genera</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">🔧 3. Proponga corrección</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+  </div>
+
+  <!-- D2 -->
+  <div class="frag-header">
+    <span class="frag-num">Fragmento 2</span>
+    <span class="frag-tipo">[Validación de entrada]</span>
+    <span class="badge-secure">✓ Aparentemente seguro</span>
+  </div>
+  <pre class="code-block">public static boolean validarUsuario(String usuario) {
+    if (usuario == null || usuario.trim().isEmpty()) {
+        return false;
+    }
+    return usuario.trim().matches("^[a-zA-Z0-9_]{4,20}$");
+}</pre>
+  <div class="analysis-grid">
+    <div class="analysis-row-label">🔍 1. Identifique el problema o confirme que es seguro y por qué</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">⚠ 2. Principio de seguridad que aplica</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">🔧 3. ¿Qué mejoraría o qué le falta?</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+  </div>
+
+  <!-- D3 -->
+  <div class="frag-header">
+    <span class="frag-num">Fragmento 3</span>
+    <span class="frag-tipo">[Ausencia total de validación]</span>
+    <span class="badge-insecure">⚠ Posible problema</span>
+  </div>
+  <pre class="code-block">Scanner sc = new Scanner(System.in);
+System.out.print("Nombre de usuario: ");
+String user = sc.nextLine();
+System.out.print("Email: ");
+String email = sc.nextLine();
+// Se usa directamente sin ninguna validación
+registrarUsuario(user, email);</pre>
+  <div class="analysis-grid">
+    <div class="analysis-row-label">🔍 1. Identifique el problema de seguridad</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">⚠ 2. Explique el riesgo que genera</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">🔧 3. Proponga corrección</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+  </div>
+</div>
+
+
+<!-- ══════════════ PAGE 9 — SECCIÓN D (cont.) ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>PROGRAMACIÓN SEGURA — Semana 1 — Sección D (continuación)</span>
+    <span class="page-num">9</span>
+  </div>
+
+  <!-- D4 -->
+  <div class="frag-header"><span class="frag-num">Fragmento 4</span><span class="frag-tipo">[Control de acceso por rol]</span><span class="badge-secure">✓ Aparentemente seguro</span></div>
+  <pre class="code-block">String rol = sesion.obtenerRol();
+switch (rol) {
+    case "ADMIN":    mostrarPanelAdmin();   break;
+    case "VENDEDOR": mostrarPanelVentas();  break;
+    default: System.out.println("Acceso denegado");
+}</pre>
+  <div class="analysis-grid">
+    <div class="analysis-row-label">🔍 1. Confirme si es seguro o identifique el problema</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">⚠ 2. Principio de seguridad aplicado</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">🔧 3. ¿Qué mejoraría?</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+  </div>
+
+  <!-- D5 -->
+  <div class="frag-header"><span class="frag-num">Fragmento 5</span><span class="frag-tipo">[Construcción de consulta SQL]</span><span class="badge-insecure">⚠ Posible problema</span></div>
+  <pre class="code-block">String usuario = sc.nextLine();
+String consulta = "SELECT * FROM usuarios "
+    + "WHERE nombre = '" + usuario + "'";
+Statement stmt = conn.createStatement();
+ResultSet rs = stmt.executeQuery(consulta);</pre>
+  <div class="analysis-grid">
+    <div class="analysis-row-label">🔍 1. Identifique el problema de seguridad</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">⚠ 2. Explique el riesgo que genera</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">🔧 3. Proponga corrección con PreparedStatement</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div><div class="answer-row"></div></div>
+  </div>
+
+  <!-- D6 -->
+  <div class="frag-header"><span class="frag-num">Fragmento 6</span><span class="frag-tipo">[Mensaje de error revelador]</span><span class="badge-insecure">⚠ Posible problema</span></div>
+  <pre class="code-block">if (!usuarioExiste(user)) {
+    System.out.println("El usuario '" + user + "' no existe en el sistema");
+} else if (!passwordCorrecta(user, pass)) {
+    System.out.println("Contraseña incorrecta para el usuario " + user);
+}</pre>
+  <div class="analysis-grid">
+    <div class="analysis-row-label">🔍 1. Identifique el problema de seguridad</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">⚠ 2. Explique el riesgo que genera</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">🔧 3. Proponga corrección</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+  </div>
+
+  <!-- D7 -->
+  <div class="frag-header"><span class="frag-num">Fragmento 7</span><span class="frag-tipo">[Bloqueo por intentos fallidos]</span><span class="badge-secure">✓ Aparentemente seguro</span></div>
+  <pre class="code-block">int intentos = 0; final int MAX = 3;
+while (intentos &lt; MAX) {
+    String p = sc.nextLine();
+    if (verificar(user, p)) { System.out.println("Sesión iniciada"); break; }
+    intentos++;
+    if (intentos == MAX) System.out.println("Cuenta bloqueada temporalmente");
+}</pre>
+  <div class="analysis-grid">
+    <div class="analysis-row-label">🔍 1. Confirme si es seguro o identifique el problema</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">⚠ 2. Principio de seguridad que aplica</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+    <div class="analysis-row-label">🔧 3. ¿Qué mejoraría?</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div></div>
+  </div>
+</div>
+
+
+<!-- ══════════════ PAGE 10 — SECCIÓN D (cont.) + E ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>PROGRAMACIÓN SEGURA — Semana 1 — Secciones D y E</span>
+    <span class="page-num">10</span>
+  </div>
+
+  <!-- D8 -->
+  <div class="frag-header"><span class="frag-num">Fragmento 8</span><span class="frag-tipo">[SQL con concatenación]</span><span class="badge-insecure">⚠ Posible problema</span></div>
+  <pre class="code-block">String cat = sc.nextLine();
+String sql = "SELECT nombre, precio FROM productos "
+    + "WHERE categoria = '" + cat + "' ORDER BY precio ASC";
+ResultSet rs = stmt.executeQuery(sql);</pre>
+  <div class="analysis-grid">
+    <div class="analysis-row-label">🔍 1. Problema · 2. Riesgo · 3. Corrección</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div><div class="answer-row"></div><div class="answer-row"></div></div>
+  </div>
+
+  <!-- D9 -->
+  <div class="frag-header"><span class="frag-num">Fragmento 9</span><span class="frag-tipo">[Validación robusta de contraseña]</span><span class="badge-secure">✓ Aparentemente seguro</span></div>
+  <pre class="code-block">public static boolean esRobusta(String p) {
+    return p != null &amp;&amp; p.length() &gt;= 8
+        &amp;&amp; p.matches(".*[A-Z].*") &amp;&amp; p.matches(".*[0-9].*")
+        &amp;&amp; p.matches(".*[!@#$%].*");
+}</pre>
+  <div class="analysis-grid">
+    <div class="analysis-row-label">🔍 1. Confirme si es seguro · 2. Principio que aplica · 3. ¿Qué mejoraría?</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div><div class="answer-row"></div><div class="answer-row"></div></div>
+  </div>
+
+  <!-- D10 -->
+  <div class="frag-header"><span class="frag-num">Fragmento 10</span><span class="frag-tipo">[Rol definido por el propio usuario]</span><span class="badge-insecure">⚠ Posible problema</span></div>
+  <pre class="code-block">System.out.print("Ingrese su rol: ");
+String rol = sc.nextLine(); // El usuario define su propio rol
+if (rol.equals("ADMIN")) {
+    System.out.println("Acceso al panel administrativo concedido");
+    cargarDatosAdministrativos();
+}</pre>
+  <div class="analysis-grid">
+    <div class="analysis-row-label">🔍 1. Problema · 2. Riesgo · 3. Corrección</div>
+    <div class="answer-lines"><div class="answer-row"></div><div class="answer-row"></div><div class="answer-row"></div><div class="answer-row"></div></div>
+  </div>
+
+  <div style="height:10px"></div>
+
+  <!-- SECTION E -->
+  <div class="sec-bar">
+    <div class="sec-bar-letter">E</div>
+    <div class="sec-bar-content">
+      <div class="sec-bar-title">MODELADO DE AMENAZAS — CASO RETAILPLUS</div>
+      <div class="sec-bar-sub">Complete las 5 tablas con coherencia técnica</div>
+    </div>
+    <div class="sec-bar-pct">—<small>~35 min</small></div>
+  </div>
+
+  <div style="background:var(--navy);padding:10px 14px;border-radius:4px;margin-bottom:10px">
+    <p style="font-family:var(--head);font-weight:700;color:var(--yellow);font-size:11pt;margin-bottom:4px">CASO: RetailPlus</p>
+    <p style="font-size:9pt;color:rgba(255,255,255,.75);line-height:1.5">La empresa RetailPlus está desarrollando un sistema web de ventas online que incluirá: módulo de login y registro de usuarios, carrito de compras, procesamiento de pagos con tarjeta de crédito y panel de administración para gestión de inventario.</p>
+  </div>
+
+  <div class="threat-section-title">E.1 — Activos Críticos del Sistema</div>
+  <table class="data-table">
+    <thead><tr><th style="width:30px">N°</th><th>Activo Crítico</th><th class="teal">Tipo</th><th class="teal" style="width:100px">Criticidad</th></tr></thead>
+    <tbody>
+      <tr><td class="td-num">1</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">2</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">3</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">4</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">5</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">6</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">7</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">8</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">9</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">10</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════ PAGE 11 — SECCIÓN E (cont.) ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>PROGRAMACIÓN SEGURA — Semana 1 — Sección E (continuación)</span>
+    <span class="page-num">11</span>
+  </div>
+
+  <div class="threat-section-title">E.2 — Amenazas del Sistema</div>
+  <table class="data-table">
+    <thead><tr><th style="width:30px">N°</th><th>Amenaza</th><th class="blue">Componente afectado</th><th class="blue" style="width:80px">Probabilidad</th><th class="blue" style="width:70px">Impacto</th></tr></thead>
+    <tbody>
+      <tr><td class="td-num">1</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">2</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">3</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">4</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">5</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">6</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">7</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">8</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">9</td><td></td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">10</td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="threat-section-title">E.3 — Vulnerabilidades del Sistema</div>
+  <table class="data-table">
+    <thead><tr><th style="width:30px">N°</th><th>Vulnerabilidad</th><th class="orange">Categoría OWASP</th><th class="orange">Corrección propuesta</th></tr></thead>
+    <tbody>
+      <tr><td class="td-num">1</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">2</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">3</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">4</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">5</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">6</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">7</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">8</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">9</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">10</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="threat-section-title">E.4 — Posibles Atacantes</div>
+  <table class="data-table">
+    <thead><tr><th style="width:30px">N°</th><th>Tipo de atacante</th><th>Motivación</th><th>Vector de ataque probable</th></tr></thead>
+    <tbody>
+      <tr><td class="td-num">1</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">2</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">3</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">4</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">5</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="threat-section-title">E.5 — Controles de Mitigación</div>
+  <table class="data-table">
+    <thead><tr><th style="width:30px">N°</th><th>Amenaza / Vulnerabilidad</th><th class="teal">Control de mitigación</th><th class="teal" style="width:100px">Tipo (prev/det/corr)</th></tr></thead>
+    <tbody>
+      <tr><td class="td-num">1</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">2</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">3</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">4</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">5</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">6</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">7</td><td></td><td></td><td></td></tr>
+      <tr><td class="td-num">8</td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════ PAGE 12 — SECCIONES F, G ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>PROGRAMACIÓN SEGURA — Semana 1 — Secciones F y G</span>
+    <span class="page-num">12</span>
+  </div>
+
+  <div class="sec-bar">
+    <div class="sec-bar-letter">F</div>
+    <div class="sec-bar-content">
+      <div class="sec-bar-title">CASOS DE USO SEGUROS</div>
+      <div class="sec-bar-sub">Complete las 3 plantillas con información técnica detallada</div>
+    </div>
+    <div class="sec-bar-pct">—<small>~25 min</small></div>
+  </div>
+
+  <!-- CU 1 -->
+  <div class="cu-header">Caso de Uso Seguro N° 1 — Inicio de Sesión Seguro</div>
+  <table class="cu-table">
+    <tr><td class="field-label">Actor(es)</td><td class="field-value"><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Objetivo</td><td class="field-value"><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Precondición</td><td class="field-value"><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Flujo principal</td><td class="field-value"><div class="answer-row"></div><div class="answer-row"></div><div class="answer-row"></div><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Flujo alternativo</td><td class="field-value"><div class="answer-row"></div><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Riesgo asociado</td><td class="field-value"><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Medida de protección</td><td class="field-value"><div class="answer-row"></div></td></tr>
+  </table>
+
+  <!-- CU 2 -->
+  <div class="cu-header" style="background:var(--teal)">Caso de Uso Seguro N° 2 — Registro de Nuevo Usuario</div>
+  <table class="cu-table">
+    <tr><td class="field-label">Actor(es)</td><td class="field-value"><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Objetivo</td><td class="field-value"><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Precondición</td><td class="field-value"><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Flujo principal</td><td class="field-value"><div class="answer-row"></div><div class="answer-row"></div><div class="answer-row"></div><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Flujo alternativo</td><td class="field-value"><div class="answer-row"></div><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Riesgo asociado</td><td class="field-value"><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Medida de protección</td><td class="field-value"><div class="answer-row"></div></td></tr>
+  </table>
+
+  <!-- CU 3 -->
+  <div class="cu-header" style="background:var(--orange)">Caso de Uso Seguro N° 3 — Procesamiento de Pago</div>
+  <table class="cu-table">
+    <tr><td class="field-label">Actor(es)</td><td class="field-value"><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Objetivo</td><td class="field-value"><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Flujo principal</td><td class="field-value"><div class="answer-row"></div><div class="answer-row"></div><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Riesgo asociado</td><td class="field-value"><div class="answer-row"></div></td></tr>
+    <tr><td class="field-label">Medida de protección</td><td class="field-value"><div class="answer-row"></div></td></tr>
+  </table>
+
+  <div style="height:8px"></div>
+
+  <div class="sec-bar">
+    <div class="sec-bar-letter">G</div>
+    <div class="sec-bar-content">
+      <div class="sec-bar-title">PLAN DE DESARROLLO SEGURO</div>
+      <div class="sec-bar-sub">Escriba mínimo 3 actividades de seguridad por cada fase del SDLC</div>
+    </div>
+    <div class="sec-bar-pct">—<small>~10 min</small></div>
+  </div>
+
+  <table class="sdlc-table">
+    <thead><tr><th style="width:110px">Fase SDLC</th><th>Actividades de seguridad (mínimo 3 por fase)</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="phase-cell">Requerimientos<div class="phase-hint">¿Qué preguntas de seguridad se deben hacer?</div></td>
+        <td><span class="sdlc-line"></span><span class="sdlc-line"></span><span class="sdlc-line"></span></td>
+      </tr>
+      <tr>
+        <td class="phase-cell">Diseño<div class="phase-hint">¿Qué patrones y controles arquitectónicos aplicar?</div></td>
+        <td><span class="sdlc-line"></span><span class="sdlc-line"></span><span class="sdlc-line"></span></td>
+      </tr>
+      <tr>
+        <td class="phase-cell">Desarrollo<div class="phase-hint">¿Qué buenas prácticas de codificación segura seguir?</div></td>
+        <td><span class="sdlc-line"></span><span class="sdlc-line"></span><span class="sdlc-line"></span></td>
+      </tr>
+      <tr>
+        <td class="phase-cell">Pruebas<div class="phase-hint">¿Qué tipos de pruebas de seguridad ejecutar?</div></td>
+        <td><span class="sdlc-line"></span><span class="sdlc-line"></span><span class="sdlc-line"></span></td>
+      </tr>
+      <tr>
+        <td class="phase-cell">Despliegue<div class="phase-hint">¿Qué configuraciones y controles aplicar en producción?</div></td>
+        <td><span class="sdlc-line"></span><span class="sdlc-line"></span><span class="sdlc-line"></span></td>
+      </tr>
+      <tr>
+        <td class="phase-cell">Monitoreo<div class="phase-hint">¿Qué alertas e indicadores de seguridad implementar?</div></td>
+        <td><span class="sdlc-line"></span><span class="sdlc-line"></span><span class="sdlc-line"></span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════ PAGE 13 — SECCIÓN H + RÚBRICA ══════════════ -->
+<div class="page">
+  <div class="run-header">
+    <span class="logo-text">Universidad Autónoma del Perú</span>
+    <span>PROGRAMACIÓN SEGURA — Semana 1 — Sección H y Rúbrica</span>
+    <span class="page-num">13</span>
+  </div>
+
+  <div class="sec-bar">
+    <div class="sec-bar-letter">H</div>
+    <div class="sec-bar-content">
+      <div class="sec-bar-title">MINI RETO DE PC — LOGIN SEGURO EN JAVA</div>
+      <div class="sec-bar-sub">Actividad práctica en computadora</div>
+    </div>
+    <div class="sec-bar-pct">20%<small>~30 min</small></div>
+  </div>
+
+  <div class="lab-hero">
+    <div class="lab-hero-icon">&lt;/&gt;</div>
+    <div class="lab-hero-text">
+      <h3>Programa Java: Validación de Login</h3>
+      <p>Desarrolle un programa de consola que valide el acceso de un usuario con los requisitos de seguridad indicados a continuación.</p>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+    <div>
+      <p style="font-family:var(--head);font-weight:700;font-size:10pt;color:var(--navy);margin-bottom:6px">Requisitos del programa:</p>
+      <div class="req-item"><span class="req-bullet">1</span><span class="req-text">Solicitar nombre de usuario por consola (Scanner).</span></div>
+      <div class="req-item"><span class="req-bullet">2</span><span class="req-text">Solicitar contraseña por consola.</span></div>
+      <div class="req-item"><span class="req-bullet">3</span><span class="req-text">Verificar longitud mínima de 8 caracteres.</span></div>
+      <div class="req-item"><span class="req-bullet">4</span><span class="req-text">Verificar presencia de al menos un número.</span></div>
+      <div class="req-item"><span class="req-bullet">5</span><span class="req-text">Verificar presencia de al menos una mayúscula.</span></div>
+    </div>
+    <div>
+      <p style="font-family:var(--head);font-weight:700;font-size:10pt;color:var(--navy);margin-bottom:6px">Mensajes requeridos:</p>
+      <div class="req-item"><span class="req-bullet">6</span><span class="req-text">Mostrar mensaje específico para cada validación que falle.</span></div>
+      <div class="req-item"><span class="req-bullet">7</span><span class="req-text">Si todo es válido: <em>"Acceso concedido. Bienvenido, [usuario]"</em></span></div>
+      <div class="req-item"><span class="req-bullet">8</span><span class="req-text">Bloquear tras 3 intentos fallidos consecutivos.</span></div>
+    </div>
+  </div>
+
+  <p style="font-family:var(--head);font-weight:700;font-size:10pt;color:var(--navy);margin-bottom:4px">H.1 — Código fuente (pegue la captura de pantalla)</p>
+  <div class="capture-box" style="height:130mm">[ Pegue aquí la captura de pantalla del código fuente ]</div>
+
+  <p style="font-family:var(--head);font-weight:700;font-size:10pt;color:var(--navy);margin-bottom:4px">H.2 — Captura de ejecución <span style="font-weight:400;font-size:8.5pt;color:var(--dgray);font-style:italic">(muestre: éxito · contraseña corta · sin número · sin mayúscula)</span></p>
+  <div class="capture-box" style="height:75mm">[ Pegue aquí la captura de ejecución del programa ]</div>
+
+  <p style="font-family:var(--head);font-weight:700;font-size:10pt;color:var(--navy);margin-bottom:6px">H.3 — Explique 3 líneas clave de su código</p>
+  <table class="explain-table">
+    <thead><tr><th style="width:32px">N°</th><th style="width:42%">Fragmento de código</th><th>¿Qué hace y por qué es importante para la seguridad?</th></tr></thead>
+    <tbody>
+      <tr><td class="line-num">1</td><td class="explain-answer"></td><td class="explain-answer"></td></tr>
+      <tr><td class="line-num">2</td><td class="explain-answer"></td><td class="explain-answer"></td></tr>
+      <tr><td class="line-num">3</td><td class="explain-answer"></td><td class="explain-answer"></td></tr>
+    </tbody>
+  </table>
+
+  <div style="height:12px"></div>
+
+  <div class="sec-bar">
+    <div class="sec-bar-letter">★</div>
+    <div class="sec-bar-content">
+      <div class="sec-bar-title">RÚBRICA DE EVALUACIÓN</div>
+      <div class="sec-bar-sub">Criterios de calificación — 20 puntos totales</div>
+    </div>
+    <div class="sec-bar-pct">20 pts<small>total</small></div>
+  </div>
+
+  <table class="rubric-table">
+    <thead><tr><th style="width:36px">Sec.</th><th>Criterio</th><th>Indicadores de desempeño</th><th style="width:56px">Pts.</th></tr></thead>
+    <tbody>
+      <tr><td class="r-sec">A</td><td>Completar la frase</td><td style="font-style:italic;color:var(--dgray)">Completa correctamente ≥ 16/20 frases con el término técnico preciso.</td><td class="r-pts">3</td></tr>
+      <tr><td class="r-sec">B</td><td>Relacionar conceptos</td><td style="font-style:italic;color:var(--dgray)">Relaciona correctamente ≥ 16/20 pares conceptuales.</td><td class="r-pts">3</td></tr>
+      <tr><td class="r-sec">C</td><td>Completar el código</td><td style="font-style:italic;color:var(--dgray)">Completa ≥ 12/15 ejercicios con la instrucción Java correcta y funcional.</td><td class="r-pts">6</td></tr>
+      <tr><td class="r-sec">D</td><td>Análisis de código</td><td style="font-style:italic;color:var(--dgray)">Identifica el problema, explica el riesgo y propone corrección válida en ≥ 8/10 fragmentos.</td><td class="r-pts">4</td></tr>
+      <tr><td class="r-sec">E</td><td>Modelado de amenazas</td><td style="font-style:italic;color:var(--dgray)">Completa las 5 tablas (activos, amenazas, vulnerabilidades, atacantes, controles) con coherencia técnica.</td><td class="r-pts">2</td></tr>
+      <tr><td class="r-sec">F</td><td>Casos de uso</td><td style="font-style:italic;color:var(--dgray)">3 casos de uso con todos los campos completos y técnicamente correctos.</td><td class="r-pts">2</td></tr>
+      <tr><td class="r-sec">H</td><td>Mini reto PC</td><td style="font-style:italic;color:var(--dgray)">Presenta código funcional, captura de ejecución y explica correctamente las 3 líneas clave.</td><td class="r-pts">20*</td></tr>
+    </tbody>
+    <tr class="rubric-total"><td class="r-sec">∑</td><td colspan="2" style="font-weight:600;font-size:9pt">Nota mínima aprobatoria: 10.5 / 20 &nbsp;·&nbsp; Sección H se evalúa de forma independiente (20%)</td><td class="r-pts">20</td></tr>
+  </table>
+
+  <div class="sign-row">
+    <span>Firma del docente: <span class="sign-line"></span></span>
+    <span>Fecha de entrega: <span class="sign-line" style="min-width:140px"></span></span>
+  </div>
+</div>
+
+</body>
+</html>
