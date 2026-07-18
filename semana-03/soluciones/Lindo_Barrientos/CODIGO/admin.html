@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><title>Panel de Administración</title>
+<style>
+    body { font-family: Arial; max-width: 700px; margin: 40px auto; }
+    .badge { background: #c0392b; color: white; padding: 4px 10px; border-radius: 12px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 10px; }
+    td, th { border: 1px solid #ccc; padding: 6px 10px; text-align: left; }
+    button { background: #c0392b; color: white; border: none; padding: 5px 10px; cursor: pointer; }
+    a { color: #2c3e50; }
+</style>
+</head>
+<body>
+    <h2>Panel de Administración <span class="badge">ADMIN</span></h2>
+    <p>Sesión: <strong>{{ name }}</strong> ({{ role }})</p>
+    <hr>
+
+    <h3>Usuarios del sistema</h3>
+    <table>
+        <tr><th>Email</th><th>Nombre</th><th>Rol</th><th>Acción</th></tr>
+        {% for email, u in usuarios.items() %}
+        <tr>
+            <td>{{ email }}</td>
+            <td>{{ u.nombre }}</td>
+            <td>{{ u.role }}</td>
+            <td>
+                <form method="POST" action="/admin/usuarios/{{ email }}/eliminar"
+                      onsubmit="return confirm('¿Eliminar a {{ email }}?');">
+                    <button type="submit">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <p><a href="/admin/sesiones-activas">Ver sesiones activas</a></p>
+    <p><a href="/dashboard">Volver al Dashboard</a> | <a href="/logout">Cerrar Sesión</a></p>
+</body>
+</html>
