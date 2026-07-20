@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><title>Dashboard</title>
+<style>
+    body { font-family: Arial; max-width: 600px; margin: 40px auto; }
+    .badge { background: #2c3e50; color: white; padding: 4px 10px; border-radius: 12px; }
+    .admin-badge { background: #c0392b; }
+    .supervisor-badge { background: #e67e22; }
+    a { color: #2c3e50; }
+    table { border-collapse: collapse; margin-top: 10px; }
+    td, th { border: 1px solid #ccc; padding: 6px 10px; }
+</style>
+</head>
+<body>
+    <h2>Dashboard{% if seccion %} — {{ seccion }}{% endif %}</h2>
+    <p>Bienvenido, <strong>{{ name }}</strong>
+       <span class="badge {{ role }}-badge">{{ role | upper }}</span>
+    </p>
+    <hr>
+
+    {% if reportes %}
+    <h3>Reportes disponibles</h3>
+    <table>
+        <tr><th>Título</th><th>Fecha</th></tr>
+        {% for r in reportes %}
+        <tr><td>{{ r.titulo }}</td><td>{{ r.fecha }}</td></tr>
+        {% endfor %}
+    </table>
+    <br>
+    {% endif %}
+
+    <ul>
+        <li><a href="/mi-perfil">Mi Perfil</a></li>
+        <li><a href="/reportes">Ver Reportes</a> (supervisor y admin)</li>
+        <li><a href="/admin/panel">Panel de Administración</a> (solo admin)</li>
+    </ul>
+    <br>
+    <a href="/logout">Cerrar Sesión</a>
+</body>
+</html>

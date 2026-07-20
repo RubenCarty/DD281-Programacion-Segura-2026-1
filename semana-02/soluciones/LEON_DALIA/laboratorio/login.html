@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>Login Seguro</title>
+<style>
+body{background:#1a1a2e;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}
+.login{background:#16213e;padding:40px;border-radius:10px;width:350px;text-align:center}
+h1{color:#e94560}input{width:100%;padding:12px;margin:10px 0;background:#0f3460;border:none;color:white}
+button{width:100%;padding:12px;background:#e94560;color:white;border:none;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="login">
+<h1>🔐 Portal Seguro</h1>
+<form method="post" action="/login">
+<input type="text" name="usuario" placeholder="Usuario" required>
+<input type="password" name="password" placeholder="Contraseña" required>
+<button type="submit">Iniciar Sesión</button>
+</form>
+</div>
+</body>
+</html>

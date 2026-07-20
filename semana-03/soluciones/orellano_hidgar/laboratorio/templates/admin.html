@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Admin</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; }
+    table { border-collapse: collapse; width: 100%; margin-bottom: 24px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background: #f4f4f4; }
+    button { background: #b83227; color: white; border: 0; padding: 6px 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Panel de Administracion</h2>
+  {% if not solo_sesiones %}
+  <h3>Usuarios registrados</h3>
+  <table>
+    <tr><th>Email</th><th>Nombre</th><th>Rol</th><th>Accion</th></tr>
+    {% for email, u in usuarios.items() %}
+    <tr>
+      <td>{{ email }}</td><td>{{ u.nombre }}</td><td>{{ u.role }}</td>
+      <td><form method="POST" action="/admin/usuarios/{{ email }}/eliminar"><button>Eliminar</button></form></td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+  <h3>Auditoria de sesiones</h3>
+  <table>
+    <tr><th>Session hash</th><th>Usuario</th><th>IP</th><th>Login</th><th>Ultimo acceso</th></tr>
+    {% for sid, s in sesiones.items() %}
+    <tr><td>{{ sid }}</td><td>{{ s.usuario }}</td><td>{{ s.ip }}</td><td>{{ s.login_at }}</td><td>{{ s.last_seen }}</td></tr>
+    {% else %}
+    <tr><td colspan="5">Sin sesiones registradas todavia.</td></tr>
+    {% endfor %}
+  </table>
+  <a href="/dashboard">Volver al dashboard</a> | <a href="/logout">Cerrar sesion</a>
+</body>
+</html>
